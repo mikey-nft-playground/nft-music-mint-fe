@@ -5,7 +5,7 @@ import { LandingPageStyle } from '~/styles/pages/index.style'
 const LandingPage = () => {
   return (
     <LandingPageStyle>
-      <Box></Box>
+      <Box>Mint 倒计时:</Box>
     </LandingPageStyle>
   )
 }
