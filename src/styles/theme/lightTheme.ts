@@ -1,16 +1,10 @@
 import { createTheme } from '@mui/material/styles'
 
 const themeColors = {
-  text: {
-    primary: '#404040',
-    secondary: '#808080'
-  },
   bg: {
-    primary: '#fff',
-    secondary: '#eee'
+    primary: '#fff'
   },
-  primary: '#f48024',
-  border: '#e0e0e0',
+  primary: '#16161a',
   link: '#007fff',
   error: '#d54474'
 } as const

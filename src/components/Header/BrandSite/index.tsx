@@ -15,10 +15,10 @@ const BrandSite = (props: IBrandSiteProps) => {
 
   return (
     <BrandSiteStyle>
-      <Link className="brand-site" href={PATHS.HOME} aria-label="GroupUp Logo">
+      <Link className="brand-site" href={PATHS.HOME} aria-label="GroundUp Logo">
         <Box className="brand-site-wrapper">
-          <Typography variant="h1">GroupUp Logo</Typography>
-          <Image src="logo.svg" width={width} height={height} alt="GroundUp" />
+          <Typography variant="h1">GroundUp Logo</Typography>
+          <Image src="logo.svg" width={width} height={height} priority alt="GroundUp Logo" />
         </Box>
       </Link>
     </BrandSiteStyle>
