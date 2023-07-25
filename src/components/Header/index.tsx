@@ -2,24 +2,16 @@ import { useTheme } from '@emotion/react'
 import { Box, Button, useMediaQuery } from '@mui/material'
 import Tooltip, { tooltipClasses, TooltipProps } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
-import { useDispatch, useSelector } from 'react-redux'
-
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { parseCookies } from 'nookies'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import Twitter from '~/assets/social-icons/twitter.svg'
 import Medium from '~/assets/social-icons/medium.svg'
 import Discord from '~/assets/social-icons/discord.svg'
-
-// import { authorize } from '~/store/slices/user.slice'
-import { RootState } from '~/store/store'
 import { PATHS } from '~/utils/constants'
 
 import BrandSite from './BrandSite'
 import MenuItem from './MenuItem'
-// import UserIndicator from './UserIndicator'
 import { HeaderStyle } from './index.style'
 
 const TooltipStyle = styled(({ className, ...props }: TooltipProps) => (
@@ -31,9 +23,6 @@ const TooltipStyle = styled(({ className, ...props }: TooltipProps) => (
 }))
 
 const Header = () => {
-  const cookies = parseCookies()
-  const dispatch = useDispatch()
-  const router = useRouter()
   const theme = useTheme() as any
   const sm = useMediaQuery(theme.breakpoints.up('sm'))
   const [isSignedIn, setSignedIn] = useState(false)

@@ -17,7 +17,7 @@ export const HeaderStyle = styled('header')(({ theme }: any) => {
       right: 0,
       padding: 0,
       margin: 0,
-      backdropFilter: 'saturate(180%) blur(5px)',
+      backdropFilter: 'blur(8px)',
       transition: 'box-shadow .2s ease-in-out,top .4s cubic-bezier(.25,.8,.25,1)',
       zIndex: 30,
 

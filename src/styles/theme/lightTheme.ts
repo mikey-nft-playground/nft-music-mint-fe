@@ -5,6 +5,7 @@ const themeColors = {
     primary: '#fff'
   },
   primary: '#16161a',
+  contrast: '#fff',
   link: '#007fff',
   error: '#d54474'
 } as const

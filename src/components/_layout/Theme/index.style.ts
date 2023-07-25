@@ -39,6 +39,7 @@ export const AppStyle = styled('main')(({ theme }: any) => {
 export const ThemeStyle = css`
   html,
   body,
+  input.MuiInputBase-input,
   button.MuiButton-root,
   p.MuiTypography-root,
   h1.MuiTypography-root,
