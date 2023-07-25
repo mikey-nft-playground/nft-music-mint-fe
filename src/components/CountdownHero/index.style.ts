@@ -12,6 +12,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
     paddingBottom: '3.5rem',
     position: 'relative',
     overflow: 'hidden',
+    minHeight: '100vh',
     zIndex: 1,
 
     '.countdown-hero-bg': {
