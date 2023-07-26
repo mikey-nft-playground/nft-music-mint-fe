@@ -1,5 +1,6 @@
 import CountdownHero from '~/components/CountdownHero'
 import Header from '~/components/Header'
+import MintHero from '~/components/MintHero'
 
 import { LandingPageStyle } from '~/styles/pages/index.style'
 
@@ -10,6 +11,7 @@ const LandingPage = () => {
 
       <LandingPageStyle>
         <CountdownHero />
+        <MintHero />
       </LandingPageStyle>
     </>
   )

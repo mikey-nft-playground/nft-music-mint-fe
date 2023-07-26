@@ -1,12 +1,12 @@
 import styled from '@emotion/styled'
 import { rgba } from 'emotion-rgba'
 
-export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
+export const MintHeroStyle = styled('section')(({ theme }: any) => {
   return {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    color: theme.contrast,
+    color: theme.primary,
     backgroundColor: '#3c2edd',
     backgroundImage: 'linear-gradient(200deg, #2927bd 41%, #347fe3)',
     paddingBottom: '3.5rem',
@@ -14,7 +14,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
     overflow: 'hidden',
     zIndex: 1,
 
-    '.countdown-hero-bg': {
+    '.mint-hero-bg': {
       position: 'absolute',
       top: 0,
       bottom: 0,
@@ -23,13 +23,13 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
       width: '100vw',
       opacity: 1,
       backgroundColor: 'transparent',
-      backgroundImage: 'url(/countdown-hero.png)',
+      backgroundImage: 'url(/mint-hero.png)',
       backgroundPosition: '0 0',
       backgroundSize: 'cover',
       zIndex: 0
     },
 
-    '.countdown-hero-noise': {
+    '.mint-hero-noise': {
       position: 'absolute',
       top: 0,
       bottom: 0,
@@ -44,25 +44,25 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
       zIndex: 0
     },
 
-    '.countdown-hero-header': {
+    '.mint-hero-header': {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'flex-start',
       position: 'relative',
       width: '100%',
       height: '5.45rem',
-      backgroundImage: `linear-gradient(${rgba('#2927bd', 0.8)}, ${rgba('#347fe3', 0)})`,
+      backgroundImage: `linear-gradient(${rgba('#e9b345', 0.8)}, ${rgba('#347fe3', 0)})`,
       paddingTop: '1.5rem',
       zIndex: 1
     },
 
-    '.countdown-hero-contents-container': {
+    '.mint-hero-contents-container': {
       display: 'flex',
       position: 'relative',
       flexDirection: 'column',
-      alignSelf: 'flex-start',
+      alignSelf: 'flex-end',
       alignItems: 'flex-start',
-      maxWidth: '1440px',
+      maxWidth: '600px',
       minHeight: '6.25rem',
       gridColumnGap: '1.5rem',
       gridRowGap: '1.5rem',
@@ -73,39 +73,43 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
         padding: '2rem 4rem'
       },
 
-      '.countdown-hero-title': {
+      '.mint-hero-title': {
         fontSize: '2.125rem',
         fontWeight: 700,
         lineHeight: '90%',
-        color: theme.contrast
+        color: theme.primary
       },
 
-      '.countdown-hero-subtext': {
+      '.mint-hero-subtext': {
         fontSize: '1.75rem',
         fontWeight: 700,
         lineHeight: '90%',
-        color: theme.contrast
+        color: theme.primary
       },
 
-      '.countdown': {
-        display: 'flex',
-        alignItems: 'baseline',
-        gap: '0.5rem',
-        marginTop: '2.75rem',
-
-        h1: {
-          fontSize: '4.5rem',
-          fontWeight: 600
-        },
-
-        p: {
-          fontSize: '2.25rem',
-          fontWeight: 600
-        }
+      '.mint-hero-account': {
+        marginTop: '1.75rem'
       },
 
-      '.check-status': {
-        marginTop: '2.75rem',
+      '.mint-hero-intro-text': {
+        fontSize: '1.5rem',
+        fontWeight: 600,
+        lineHeight: '1.75rem',
+        marginBottom: '0.625rem'
+      },
+
+      '.mint-hero-text': {
+        fontSize: '1.125rem',
+        fontWeight: 500,
+        lineHeight: '1.625rem'
+      },
+
+      '.mint-section': {
+        borderRadius: '1rem',
+        backdropFilter: 'blur(2px)',
+        backgroundColor: rgba(theme.contrast, 0.2),
+        boxShadow:
+          'inset 0 0 1px rgba(255, 255, 255, .54), inset 0 1px 1px rgba(214, 211, 255, .56), 0 10px 10px -8px rgba(21, 20, 46, .25)',
 
         '.wallet-address-input': {
           marginTop: '1.5rem',
@@ -113,19 +117,19 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
 
           '.MuiInputBase-root': {
             borderRadius: '0.5rem',
-            backgroundColor: rgba(theme.contrast, 0.2),
+            backgroundColor: rgba(theme.primary, 0.2),
             overflow: 'hidden'
           },
 
           input: {
-            color: theme.contrast,
+            color: theme.primary,
             fontWeight: 600,
             backdropFilter: 'blur(2px)',
             minWidth: '27rem',
             height: '1rem',
 
             '&::placeholder': {
-              color: rgba(theme.contrast, 1)
+              color: rgba(theme.primary, 1)
             }
           },
 
@@ -133,21 +137,15 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
             marginRight: '0.25rem',
 
             svg: {
-              color: theme.primary
+              color: theme.contrast
             }
           },
 
           fieldset: {
             borderWidth: 2,
-            borderColor: rgba(theme.contrast, 0.6)
+            borderColor: rgba(theme.primary, 0.6)
           }
         }
-      },
-
-      '.countdown-hero-intro-text': {
-        fontSize: '1.125rem',
-        fontWeight: 400,
-        lineHeight: '2rem'
       }
     }
   }
