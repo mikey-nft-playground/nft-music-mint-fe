@@ -25,8 +25,8 @@ const QuantityPicker = (props: any) => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M13.418 8C13.418 8.41421 13.0822 8.75 12.668 8.75L3.33398 8.75C2.91977 8.75 2.58398 8.41421 2.58398 8C2.58398 7.58579 2.91977 7.25 3.33398 7.25L12.668 7.25C13.0822 7.25 13.418 7.58579 13.418 8Z"
               fill="currentColor"></path>
           </svg>
@@ -40,8 +40,8 @@ const QuantityPicker = (props: any) => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M8.77198 4.33325C8.77198 3.91904 8.4362 3.58325 8.02198 3.58325C7.60777 3.58325 7.27198 3.91904 7.27198 4.33325V7.24992L4.33398 7.24992C3.91977 7.24992 3.58398 7.5857 3.58398 7.99992C3.58398 8.41413 3.91977 8.74992 4.33398 8.74992H7.27198V11.6666C7.27198 12.0808 7.60777 12.4166 8.02198 12.4166C8.4362 12.4166 8.77198 12.0808 8.77198 11.6666V8.74992H11.6678C12.082 8.74992 12.4178 8.41413 12.4178 7.99992C12.4178 7.5857 12.082 7.24992 11.6678 7.24992L8.77198 7.24992V4.33325Z"
               fill="currentColor"></path>
           </svg>

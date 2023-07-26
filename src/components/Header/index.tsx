@@ -4,10 +4,12 @@ import Tooltip, { tooltipClasses, TooltipProps } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import Twitter from '~/assets/social-icons/twitter.svg'
 import Medium from '~/assets/social-icons/medium.svg'
 import Discord from '~/assets/social-icons/discord.svg'
+import { openConnectWalletModal } from '~/store/slices/local.slice'
 import { PATHS } from '~/utils/constants'
 
 import BrandSite from './BrandSite'
@@ -23,9 +25,14 @@ const TooltipStyle = styled(({ className, ...props }: TooltipProps) => (
 }))
 
 const Header = () => {
+  const dispatch = useDispatch()
   const theme = useTheme() as any
   const sm = useMediaQuery(theme.breakpoints.up('sm'))
   const [isSignedIn, setSignedIn] = useState(false)
+
+  const onOpenConnectWalletModal = () => {
+    dispatch(openConnectWalletModal())
+  }
 
   return (
     <HeaderStyle>
@@ -72,7 +79,9 @@ const Header = () => {
                   <></>
                 ) : (
                   // <UserIndicator />
-                  <Button className="connect-btn">Connect Wallet</Button>
+                  <Button onClick={onOpenConnectWalletModal} className="connect-btn">
+                    Connect Wallet
+                  </Button>
                 )}
               </Box>
             </Box>
