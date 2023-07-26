@@ -3,15 +3,18 @@ import { rgba } from 'emotion-rgba'
 
 export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
   return {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: 'grid',
+    placeItems: 'center',
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'center',
     color: theme.contrast,
     backgroundColor: '#3c2edd',
     backgroundImage: 'linear-gradient(200deg, #2927bd 41%, #347fe3)',
     paddingBottom: '3.5rem',
     position: 'relative',
     overflow: 'hidden',
+    minHeight: '80vh',
     zIndex: 1,
 
     '.countdown-hero-bg': {
@@ -35,7 +38,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
       bottom: 0,
       left: 0,
       right: 0,
-      opacity: 0.25,
+      opacity: 0.05,
       mixBlendMode: 'overlay',
       backgroundColor: 'transparent',
       backgroundImage: 'url(/noise-light.webp)',
@@ -51,18 +54,21 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
       position: 'relative',
       width: '100%',
       height: '5.45rem',
+      opacity: 0.05,
       backgroundImage: `linear-gradient(${rgba('#2927bd', 0.8)}, ${rgba('#347fe3', 0)})`,
       paddingTop: '1.5rem',
       zIndex: 1
     },
 
     '.countdown-hero-contents-container': {
-      display: 'flex',
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
       position: 'relative',
       flexDirection: 'column',
       alignSelf: 'flex-start',
       alignItems: 'flex-start',
       maxWidth: '1440px',
+      width: '100%',
       minHeight: '6.25rem',
       gridColumnGap: '1.5rem',
       gridRowGap: '1.5rem',
@@ -76,14 +82,14 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
       '.countdown-hero-title': {
         fontSize: '2.125rem',
         fontWeight: 700,
-        lineHeight: '90%',
+        lineHeight: '1.375',
         color: theme.contrast
       },
 
       '.countdown-hero-subtext': {
         fontSize: '1.75rem',
         fontWeight: 700,
-        lineHeight: '90%',
+        lineHeight: '1.75',
         color: theme.contrast
       },
 
@@ -94,7 +100,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
         marginTop: '2.75rem',
 
         h1: {
-          fontSize: '4.5rem',
+          fontSize: '4rem',
           fontWeight: 600
         },
 

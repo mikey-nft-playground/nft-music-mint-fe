@@ -3,15 +3,18 @@ import { rgba } from 'emotion-rgba'
 
 export const MintHeroStyle = styled('section')(({ theme }: any) => {
   return {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: 'grid',
+    placeItems: 'center',
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'center',
     color: theme.primary,
     backgroundColor: '#3c2edd',
-    backgroundImage: 'linear-gradient(200deg, #2927bd 41%, #347fe3)',
+    backgroundImage: 'linear-gradient(200deg, #f8b523 41%, #347fe3)',
     paddingBottom: '3.5rem',
     position: 'relative',
     overflow: 'hidden',
+    minHeight: '80vh',
     zIndex: 1,
 
     '.mint-hero-bg': {
@@ -35,7 +38,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       bottom: 0,
       left: 0,
       right: 0,
-      opacity: 0.25,
+      opacity: 0.05,
       mixBlendMode: 'overlay',
       backgroundColor: 'transparent',
       backgroundImage: 'url(/noise-light.webp)',
@@ -51,18 +54,21 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       position: 'relative',
       width: '100%',
       height: '5.45rem',
+      opacity: 0.05,
       backgroundImage: `linear-gradient(${rgba('#e9b345', 0.8)}, ${rgba('#347fe3', 0)})`,
       paddingTop: '1.5rem',
       zIndex: 1
     },
 
     '.mint-hero-contents-container': {
-      display: 'flex',
+      display: 'grid',
+      gridTemplateColumns: 'auto 36%',
       position: 'relative',
       flexDirection: 'column',
       alignSelf: 'flex-end',
       alignItems: 'flex-start',
-      maxWidth: '600px',
+      maxWidth: '1440px',
+      width: '100%',
       minHeight: '6.25rem',
       gridColumnGap: '1.5rem',
       gridRowGap: '1.5rem',
@@ -76,19 +82,23 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       '.mint-hero-title': {
         fontSize: '2.125rem',
         fontWeight: 700,
-        lineHeight: '90%',
+        lineHeight: '1.375',
         color: theme.primary
       },
 
       '.mint-hero-subtext': {
         fontSize: '1.75rem',
         fontWeight: 700,
-        lineHeight: '90%',
+        lineHeight: '1.75',
         color: theme.primary
       },
 
       '.mint-hero-account': {
-        marginTop: '1.75rem'
+        marginTop: '1.875rem'
+      },
+
+      '.mint-hero-info': {
+        marginTop: '1.875rem'
       },
 
       '.mint-hero-intro-text': {
@@ -105,45 +115,55 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       },
 
       '.mint-section': {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
         borderRadius: '1rem',
-        backdropFilter: 'blur(2px)',
-        backgroundColor: rgba(theme.contrast, 0.2),
+        padding: '1.25rem',
+        marginTop: '1.875rem',
+        backgroundColor: 'rgba(255, 255, 255, .4)',
         boxShadow:
           'inset 0 0 1px rgba(255, 255, 255, .54), inset 0 1px 1px rgba(214, 211, 255, .56), 0 10px 10px -8px rgba(21, 20, 46, .25)',
+        // backgroundImage: 'linear-gradient(rgba(21, 20, 46, .34), rgba(21, 20, 46, .11))',
+        // boxShadow: '0 1px 1px rgba(255, 255, 255, .15), inset 0 2px 4px rgba(21, 20, 46, .23)',
 
-        '.wallet-address-input': {
-          marginTop: '1.5rem',
-          marginBottom: '1rem',
+        '.mint-box': {
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          gap: '0.75rem',
 
-          '.MuiInputBase-root': {
-            borderRadius: '0.5rem',
-            backgroundColor: rgba(theme.primary, 0.2),
-            overflow: 'hidden'
+          p: {
+            marginBottom: 0
+          }
+        },
+
+        '.mint-btn': {
+          borderRadius: '0.375rem',
+          padding: '0.25rem 0.5rem',
+          height: '2.5rem',
+          width: '100%',
+          fontSize: '0.1rem',
+          fontWeight: 500,
+          textTransform: 'initial',
+          overflow: 'hidden',
+          margin: '1rem auto 0.25rem',
+          backgroundColor: theme.primary,
+          color: theme.contrast,
+          transition: 'all 0.15s ease-in-out 0s',
+          transformOrigin: 'center center',
+
+          [theme.breakpoints.up('md')]: {
+            padding: '0.75rem 0.875rem',
+            fontSize: '1.125rem'
           },
 
-          input: {
-            color: theme.primary,
-            fontWeight: 600,
-            backdropFilter: 'blur(2px)',
-            minWidth: '27rem',
-            height: '1rem',
-
-            '&::placeholder': {
-              color: rgba(theme.primary, 1)
-            }
+          '&:hover': {
+            borderColor: rgba(theme.primary, 0.2)
           },
 
-          '.MuiInputAdornment-root': {
-            marginRight: '0.25rem',
-
-            svg: {
-              color: theme.contrast
-            }
-          },
-
-          fieldset: {
-            borderWidth: 2,
-            borderColor: rgba(theme.primary, 0.6)
+          '&:active': {
+            transform: 'scale(0.95)'
           }
         }
       }
