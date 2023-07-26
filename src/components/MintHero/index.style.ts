@@ -3,8 +3,6 @@ import { rgba } from 'emotion-rgba'
 
 export const MintHeroStyle = styled('section')(({ theme }: any) => {
   return {
-    display: 'grid',
-    placeItems: 'center',
     // display: 'flex',
     // flexDirection: 'column',
     // alignItems: 'center',
@@ -14,8 +12,14 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
     paddingBottom: '3.5rem',
     position: 'relative',
     overflow: 'hidden',
-    minHeight: '80vh',
+    minHeight: '1300px',
     zIndex: 1,
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'grid',
+      placeItems: 'center',
+      minHeight: '80vh'
+    },
 
     '.mint-hero-bg': {
       position: 'absolute',
@@ -26,10 +30,15 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       width: '100vw',
       opacity: 1,
       backgroundColor: 'transparent',
-      backgroundImage: 'url(/mint-hero.png)',
-      backgroundPosition: '0 0',
+      backgroundImage: 'url(/bg/mint-hero-mobile.png)',
+      backgroundPosition: 'center bottom',
       backgroundSize: 'cover',
-      zIndex: 0
+      zIndex: 0,
+
+      [theme.breakpoints.up('sm')]: {
+        backgroundImage: 'url(/bg/mint-hero.png)',
+        backgroundPosition: '0 0'
+      }
     },
 
     '.mint-hero-noise': {
@@ -41,7 +50,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       opacity: 0.05,
       mixBlendMode: 'overlay',
       backgroundColor: 'transparent',
-      backgroundImage: 'url(/noise-light.webp)',
+      backgroundImage: 'url(/bg/noise-light.webp)',
       backgroundPosition: '0 0',
       backgroundSize: '10.5rem',
       zIndex: 0
@@ -53,16 +62,20 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       alignItems: 'flex-start',
       position: 'relative',
       width: '100%',
-      height: '5.45rem',
+      height: '3rem',
       opacity: 0.05,
       backgroundImage: `linear-gradient(${rgba('#e9b345', 0.8)}, ${rgba('#347fe3', 0)})`,
       paddingTop: '1.5rem',
-      zIndex: 1
+      zIndex: 1,
+
+      [theme.breakpoints.up('sm')]: {
+        height: '5.45rem'
+      }
     },
 
     '.mint-hero-contents-container': {
       display: 'grid',
-      gridTemplateColumns: 'auto 36%',
+      gridTemplateColumns: '1fr',
       position: 'relative',
       flexDirection: 'column',
       alignSelf: 'flex-end',
@@ -73,24 +86,42 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       gridColumnGap: '1.5rem',
       gridRowGap: '1.5rem',
       zIndex: 1,
-      padding: '0 0.75rem',
+      padding: '0 1rem',
 
       [theme.breakpoints.up('md')]: {
         padding: '2rem 4rem'
       },
 
+      [theme.breakpoints.up('lg')]: {
+        gridTemplateColumns: 'auto 36%'
+      },
+
+      '.mint-hero-content': {
+        [theme.breakpoints.up('lg')]: {
+          gridColumn: 2
+        }
+      },
+
       '.mint-hero-title': {
-        fontSize: '2.125rem',
+        fontSize: '1.75rem',
         fontWeight: 700,
         lineHeight: '1.375',
-        color: theme.primary
+        color: theme.primary,
+
+        [theme.breakpoints.up('sm')]: {
+          fontSize: '2.125rem'
+        }
       },
 
       '.mint-hero-subtext': {
-        fontSize: '1.75rem',
+        fontSize: '1.5rem',
         fontWeight: 700,
         lineHeight: '1.75',
-        color: theme.primary
+        color: theme.primary,
+
+        [theme.breakpoints.up('sm')]: {
+          fontSize: '1.75rem'
+        }
       },
 
       '.mint-hero-account': {
@@ -102,16 +133,24 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       },
 
       '.mint-hero-intro-text': {
-        fontSize: '1.5rem',
+        fontSize: '1.25rem',
         fontWeight: 600,
         lineHeight: '1.75rem',
-        marginBottom: '0.625rem'
+        marginBottom: '0.625rem',
+
+        [theme.breakpoints.up('sm')]: {
+          fontSize: '1.5rem'
+        }
       },
 
       '.mint-hero-text': {
-        fontSize: '1.125rem',
+        fontSize: '1rem',
         fontWeight: 500,
-        lineHeight: '1.625rem'
+        lineHeight: '1.625rem',
+
+        [theme.breakpoints.up('sm')]: {
+          fontSize: '1.125rem'
+        }
       },
 
       '.mint-section': {
@@ -143,7 +182,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
           padding: '0.25rem 0.5rem',
           height: '2.5rem',
           width: '100%',
-          fontSize: '0.1rem',
+          fontSize: '1rem',
           fontWeight: 500,
           textTransform: 'initial',
           overflow: 'hidden',

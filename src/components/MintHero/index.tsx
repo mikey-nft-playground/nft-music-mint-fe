@@ -24,7 +24,7 @@ const MintHero = () => {
       <Box className="mint-hero-header"></Box>
 
       <Box className="mint-hero-contents-container">
-        <Box style={{ gridColumn: 2 }}>
+        <Box className="mint-hero-content">
           <Typography variant="h1" className="mint-hero-title">
             GroundUp Genesis Pass
           </Typography>

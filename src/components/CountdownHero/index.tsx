@@ -28,7 +28,7 @@ const CountdownHero = () => {
       <Box className="countdown-hero-header"></Box>
 
       <Box className="countdown-hero-contents-container">
-        <Box>
+        <Box style={{ overflow: 'hidden' }}>
           <Typography variant="h1" className="countdown-hero-title">
             GroundUp Genesis Pass
           </Typography>
@@ -99,7 +99,6 @@ const CountdownHero = () => {
             <Typography className="countdown-hero-intro-text">No ENS please.</Typography>
           </Box>
         </Box>
-        <Box></Box>
       </Box>
     </CountdownHeroStyle>
   )
