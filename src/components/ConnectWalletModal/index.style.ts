@@ -37,6 +37,10 @@ export const ConnectWalletModalStyle = styled(Modal)(({ theme }: any) => {
         background: 'transparent',
         zIndex: 20,
 
+        [theme.breakpoints.up('sm')]: {
+          top: 0
+        },
+
         '&:hover': {
           borderColor: rgba(theme.contrast, 0.18)
         },
@@ -81,7 +85,7 @@ export const ConnectWalletModalStyle = styled(Modal)(({ theme }: any) => {
         maxHeight: '100%',
 
         [theme.breakpoints.up('sm')]: {
-          maxHeight: '574px',
+          maxHeight: '574px'
         }
       },
 

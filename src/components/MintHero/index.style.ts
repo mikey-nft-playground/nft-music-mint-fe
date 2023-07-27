@@ -89,7 +89,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       padding: '0 1rem',
 
       [theme.breakpoints.up('md')]: {
-        padding: '2rem 4rem'
+        padding: '2rem 2.5rem'
       },
 
       [theme.breakpoints.up('lg')]: {

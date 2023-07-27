@@ -28,7 +28,7 @@ export const HeaderStyle = styled('header')(({ theme }: any) => {
         padding: '0 0.75rem',
 
         [theme.breakpoints.up('md')]: {
-          padding: '0 4rem'
+          padding: '0 2.5rem'
         },
 
         '.header-upper': {

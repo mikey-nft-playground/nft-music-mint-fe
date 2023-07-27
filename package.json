@@ -21,10 +21,12 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@web3-react/core": "^8.2.0",
     "@web3-react/injected-connector": "^6.0.7",
+    "@web3-react/metamask": "^8.2.1",
     "axios": "^1.4.0",
     "connected-next-router": "^4.2.0",
     "emotion-rgba": "^0.0.11",
     "ethers": "^6.6.5",
+    "eventemitter3": "^5.0.1",
     "luxon": "^3.3.0",
     "next": "13.4.12",
     "nookies": "^2.5.2",
@@ -35,6 +37,7 @@
     "react-redux": "8.1.1",
     "redux-saga": "1.2.3",
     "sass": "1.64.1",
+    "web3": "^4.0.3",
     "yup": "^1.2.0"
   },
   "devDependencies": {
