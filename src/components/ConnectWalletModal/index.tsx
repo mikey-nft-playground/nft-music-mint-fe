@@ -1,8 +1,11 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { Box, Button, IconButton, Typography } from '@mui/material'
-
-import { ConnectWalletModalStyle } from './index.style'
+import { useWeb3React } from '@web3-react/core'
 import Image from 'next/image'
+import Web3 from 'web3'
+
+import { useOutsideClick } from '~/hooks/useOutsideClick'
+import { ConnectWalletModalStyle } from './index.style'
 
 type IConnectWalletModalProps = {
   open: boolean
@@ -11,15 +14,44 @@ type IConnectWalletModalProps = {
 
 const ConnectWalletModal = (props: IConnectWalletModalProps) => {
   const { open, onClose } = props
+  const { connector } = useWeb3React()
+
+  const modalRef = useOutsideClick(() => {
+    onClose()
+  })
+
+  const onConnectMetaMask = async () => {
+    const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
+    try {
+      if (typeof window.ethereum !== 'undefined') {
+        if (chainId && window.ethereum.networkVersion !== chainId) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: Web3.utils.toHex(parseInt(chainId)) }]
+            })
+          } catch (err: any) {
+            console.log('Network changed rejected', err)
+          }
+        } else {
+          await connector.activate(chainId)
+        }
+      } else {
+        // Download MetaMask
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
-    <ConnectWalletModalStyle open={open} onClose={onClose} closeOn>
+    <ConnectWalletModalStyle open={open} onClose={onClose}>
       <Box className="connect-wallet-modal">
         <IconButton className="close-icon" onClick={onClose}>
           <CloseRoundedIcon />
         </IconButton>
 
-        <Box className="cw-modal-container">
+        <Box ref={modalRef} className="cw-modal-container">
           <Box className="cw-modal-scroll">
             <Box className="cw-modal">
               <Typography variant="h1" className="cw-modal-header">
@@ -34,7 +66,7 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
                 <Box className="wallet-list">
                   <Typography className="heading">Popular</Typography>
 
-                  <Button className="wallet-btn metamask" disableRipple>
+                  <Button className="wallet-btn metamask" onClick={onConnectMetaMask} disableRipple>
                     <Box className="btn-wrapper">
                       <svg viewBox="0 0 25 24" fill="none" width="24" height="24">
                         <path

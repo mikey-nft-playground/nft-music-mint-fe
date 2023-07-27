@@ -2,8 +2,8 @@ import { useTheme } from '@emotion/react'
 import { Box, Button, useMediaQuery } from '@mui/material'
 import Tooltip, { tooltipClasses, TooltipProps } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
+import { useWeb3React } from '@web3-react/core'
 import Link from 'next/link'
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Twitter from '~/assets/social-icons/twitter.svg'
@@ -14,6 +14,7 @@ import { PATHS } from '~/utils/constants'
 
 import BrandSite from './BrandSite'
 import MenuItem from './MenuItem'
+import UserIndicator from './UserIndicator'
 import { HeaderStyle } from './index.style'
 
 const TooltipStyle = styled(({ className, ...props }: TooltipProps) => (
@@ -28,7 +29,11 @@ const Header = () => {
   const dispatch = useDispatch()
   const theme = useTheme() as any
   const sm = useMediaQuery(theme.breakpoints.up('sm'))
-  const [isSignedIn, setSignedIn] = useState(false)
+
+  const { connector, hooks } = useWeb3React()
+  const { useSelectedAccount } = hooks
+
+  const account = useSelectedAccount(connector)
 
   const onOpenConnectWalletModal = () => {
     dispatch(openConnectWalletModal())
@@ -75,10 +80,11 @@ const Header = () => {
                   </Link>
                 </TooltipStyle>
 
-                {isSignedIn ? (
-                  <></>
+                {account ? (
+                  <>
+                    <UserIndicator account={account} />
+                  </>
                 ) : (
-                  // <UserIndicator />
                   <Button onClick={onOpenConnectWalletModal} className="connect-btn">
                     Connect Wallet
                   </Button>
