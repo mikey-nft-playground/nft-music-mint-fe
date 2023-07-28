@@ -4,12 +4,13 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { RevertedMessages } from '~/contracts'
-import { getProof } from '~/store/slices/wallet.slice'
+import { getProof, resetProof } from '~/store/slices/wallet.slice'
 import { RootState } from '~/store/store'
 import { mintBlockchain } from '~/utils/blockchain'
 import QuantityPicker from '../QuantityPicker'
 import { MintHeroStyle } from './index.style'
 import { EWalletListType } from '~/utils/constants'
+import { openConnectWalletModal } from '~/store/slices/local.slice'
 
 const MintHero = () => {
   const dispatch = useDispatch()
@@ -20,12 +21,16 @@ const MintHero = () => {
 
   async function handleMintNFTs(amount: number) {
     // await requestAccount()
-    dispatch(
-      getProof({
-        walletAddress: '0xEf52B71d492f7aAD77449E666ca4412F607c87f2',
-        type: EWalletListType.ALLOW_LIST
-      })
-    )
+    if (!account) {
+      dispatch(openConnectWalletModal())
+    } else {
+      dispatch(
+        getProof({
+          walletAddress: account,
+          type: EWalletListType.ALLOW_LIST
+        })
+      )
+    }
   }
 
   useEffect(() => {
@@ -38,9 +43,11 @@ const MintHero = () => {
       })
         .then(() => {
           console.log('Mint done!')
+          dispatch(resetProof())
         })
         .catch((err) => {
           console.log('Mint Error: ', err)
+          dispatch(resetProof())
           RevertedMessages.Messages.forEach((message) => {
             if ((err as Error).message.indexOf(message.errorMessage) > -1) {
               alert(message.userMessage)

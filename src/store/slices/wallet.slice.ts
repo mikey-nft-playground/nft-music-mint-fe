@@ -59,6 +59,11 @@ const walletSlice = createSlice({
       state.gettingProof = false
       state.gotProof = false
       state.error = action.payload
+    },
+    resetProof(state) {
+      state.gettingProof = false
+      state.gotProof = false
+      state.proof = []
     }
   }
 })
@@ -69,6 +74,7 @@ export const {
   checkWalletError,
   getProof,
   getProofSuccess,
-  getProofError
+  getProofError,
+  resetProof
 } = walletSlice.actions
 export default walletSlice.reducer
