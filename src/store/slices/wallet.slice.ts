@@ -42,6 +42,11 @@ const walletSlice = createSlice({
       state.checkedWallet = false
       state.error = action.payload
     },
+    resetCheckWalletResult(state) {
+      state.checkingWallet = false
+      state.checkedWallet = false
+      state.checkWalletResult = null
+    },
 
     /**
      * getProof
@@ -72,6 +77,7 @@ export const {
   checkWallet,
   checkWalletSuccess,
   checkWalletError,
+  resetCheckWalletResult,
   getProof,
   getProofSuccess,
   getProofError,

@@ -88,6 +88,17 @@ export const AppModalStyle = styled(Modal)(({ theme }: any) => {
           maxHeight: '574px'
         }
       }
+    },
+
+    '@keyframes slideUp': {
+      '0%': {
+        opacity: 0,
+        transform: 'translateY(20px)'
+      },
+      '100%': {
+        opacity: 1,
+        transform: 'translateY(0)'
+      }
     }
   }
 })

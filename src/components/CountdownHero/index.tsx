@@ -5,11 +5,13 @@ import { BigNumber } from 'ethers'
 import { DateTime, Duration, DurationObjectUnits } from 'luxon'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 
-import { checkWallet } from '~/store/slices/wallet.slice'
+import { checkWallet, resetCheckWalletResult } from '~/store/slices/wallet.slice'
+import { RootState } from '~/store/store'
 import { CountdownHeroStyle } from './index.style'
+import ResultModal from './ResultModal'
 
 const statusSchema = yup.object().shape({
   address: yup.string().required('Please enter your wallet address')
@@ -47,12 +49,27 @@ const CountdownHero = () => {
     handleSubmit
   } = useForm({ resolver: yupResolver(statusSchema) })
   const dispatch = useDispatch()
+  const { checkWalletResult } = useSelector((state: RootState) => state.wallet)
+
+  const [isResultModalOpened, setResultModalOpened] = useState(false)
+  const [address, setAddress] = useState('')
+  const [result, setResult] = useState('')
 
   const [remainingMs, setRemainingMs] = useState(0)
   const intervalLength = 1000
   let countdown: NodeJS.Timer | null = null
 
+  const onOpenResultModal = () => {
+    setResultModalOpened(true)
+    dispatch(resetCheckWalletResult())
+  }
+
+  const onCloseResultModal = () => {
+    setResultModalOpened(false)
+  }
+
   const onCheckStatus = (data: { [x: string]: string }) => {
+    setAddress(data.address)
     dispatch(checkWallet({ walletAddress: data.address }))
   }
 
@@ -93,6 +110,13 @@ const CountdownHero = () => {
     startTimer()
     return () => cancelTimer()
   }, [])
+
+  useEffect(() => {
+    if (checkWalletResult) {
+      setResult(checkWalletResult)
+      onOpenResultModal()
+    }
+  }, [checkWalletResult])
 
   return (
     <CountdownHeroStyle>
@@ -155,6 +179,13 @@ const CountdownHero = () => {
                 )}
               </Box>
             </FormControl>
+
+            <ResultModal
+              open={isResultModalOpened}
+              onClose={onCloseResultModal}
+              address={address}
+              result={result}
+            />
 
             <Typography className="countdown-hero-intro-text">
               Check your whiteliststatus by wallet address.

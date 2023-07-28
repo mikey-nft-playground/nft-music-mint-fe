@@ -1,9 +1,9 @@
 import styled from '@emotion/styled'
 import { rgba } from 'emotion-rgba'
 
-export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
+export const ResultModalStyle = styled('div')(({ theme }: any) => {
   return {
-    '.cw-modal': {
+    '.rs-modal': {
       padding: '2rem 0',
       maxHeight: '100%',
       background: theme.contrast,
@@ -15,7 +15,7 @@ export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
         height: 'auto'
       },
 
-      '.cw-modal-header': {
+      '.rs-modal-header': {
         padding: '0 2rem',
         marginBottom: '1rem',
         fontSize: '1.375rem',
@@ -27,14 +27,14 @@ export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
         maxWidth: '100%'
       },
 
-      '.cw-modal-body': {
+      '.rs-modal-body': {
         display: 'flex',
         flexDirection: 'column',
         padding: '0 2rem',
 
         '.content': {
-          marginBottom: '2rem',
-          color: rgba(theme.primary, 0.6),
+          marginBottom: '0.5rem',
+          color: theme.primary,
           fontSize: '14px',
           lineHeight: '20px',
           fontWeight: 500,
@@ -44,26 +44,16 @@ export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
             lineHeight: '22px'
           },
 
+          '&:last-of-type': {
+            marginBottom: '2rem'
+          },
+
           span: {
-            color: theme.primary
+            color: rgba(theme.primary, 0.6)
           }
         },
 
-        '.wallet-list': {
-          display: 'flex',
-          flexDirection: 'column',
-          marginBottom: '2rem',
-
-          '.heading': {
-            fontSize: '13px',
-            lineHeight: '20px',
-            fontWeight: 400,
-            color: rgba(theme.primary, 0.6),
-            marginBottom: '0.625rem'
-          }
-        },
-
-        '.wallet-btn': {
+        '.rs-btn': {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-start',
@@ -82,8 +72,21 @@ export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
           transformOrigin: 'center center',
           userSelect: 'none',
 
+          '&:not(:last-of-type)': {
+            marginBottom: '1rem'
+          },
+
           '&.center': {
             justifyContent: 'center'
+          },
+
+          '&.bg': {
+            background: theme.primary,
+            borderColor: rgba(theme.primary, 0.1),
+
+            '.btn-content p': {
+              color: theme.contrast
+            }
           },
 
           '&:disabled': {
@@ -93,27 +96,6 @@ export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
             p: {
               color: rgba(theme.primary, 0.6)
             }
-          },
-
-          '&.loading': {
-            svg: {
-              display: 'block'
-            }
-          },
-
-          '.btn-wrapper': {
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.15s ease-in-out 0s',
-            height: '100%'
-          },
-
-          svg: {
-            display: 'none',
-            marginRight: '0.5rem',
-            color: rgba(theme.primary, 0.6),
-            animation: '1s linear 0s infinite normal forwards running rotate'
           },
 
           '.btn-content': {
@@ -133,15 +115,6 @@ export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
             }
           }
         }
-      }
-    },
-
-    '@keyframes rotate': {
-      '0%': {
-        transform: 'rotate(0deg)'
-      },
-      '100%': {
-        transform: 'rotate(360deg)'
       }
     }
   }
