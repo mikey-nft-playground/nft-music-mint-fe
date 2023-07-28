@@ -2,9 +2,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { BigNumber, Contract, ethers } from 'ethers';
+import * as abiFile from 'GroundUp721A.json';
 
 import QuantityPicker from '../QuantityPicker'
 import { MintHeroStyle } from './index.style'
+import { requestAccount } from '~/utils/blockchain'
 
 const statusSchema = yup.object().shape({
   address: yup.string().required('Please enter your wallet address')
@@ -16,6 +19,24 @@ const MintHero = () => {
     formState: { errors },
     handleSubmit
   } = useForm({ resolver: yupResolver(statusSchema) })
+
+  async function handleMintNFTs(amount: number) {
+    const erc721ContractAddress = '0x8C3c3aD87080E2dDF2Ff74b698a4251905310E98'; // from env
+    if (typeof window.ethereum !== 'undefined') {
+      await requestAccount();
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new Contract(erc721ContractAddress, abiFile.abi, signer);
+
+      const options = {value: ethers.utils.parseEther("0.05").mul(BigNumber.from(amount))}; // 0.05ETH per NFT
+
+      // Get merkle proof for the address by calling backend API
+      const merkleProof: string[] = [];
+
+      const transaction = await contract.mint(amount, merkleProof, options);
+      await transaction.wait();
+    }
+  }
 
   return (
     <MintHeroStyle>
@@ -54,7 +75,7 @@ const MintHero = () => {
                 <QuantityPicker />
                 <Typography className="mint-hero-intro-text">0.02eth</Typography>
               </Box>
-              <Button className="mint-btn">Mint</Button>
+              <Button className="mint-btn" onClick={async () => handleMintNFTs(1)}>Mint</Button>
             </Box>
           </Box>
         </Box>
