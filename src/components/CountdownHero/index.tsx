@@ -1,6 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import EastRoundedIcon from '@mui/icons-material/EastRounded'
 import { Box, FormControl, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
+import { BigNumber } from 'ethers'
+import { DateTime, Duration, DurationObjectUnits } from 'luxon'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
@@ -12,7 +15,32 @@ const statusSchema = yup.object().shape({
   address: yup.string().required('Please enter your wallet address')
 })
 
+const Countdown = (props: { remainingMs: number }) => {
+  const { remainingMs = 0 } = props
+  const [duration, setDuration] = useState<DurationObjectUnits>({ days: 0, hours: 0, minutes: 0 })
+
+  useEffect(() => {
+    if (remainingMs)
+      setDuration(Duration.fromMillis(remainingMs).shiftTo('days', 'hours', 'minutes').toObject())
+  }, [remainingMs])
+
+  return (
+    <Box className="countdown">
+      <Typography variant="h1">{duration.days}</Typography>
+      <Typography>days :</Typography>
+      <Typography variant="h1">{duration.hours}</Typography>
+      <Typography>h :</Typography>
+      <Typography variant="h1">{Math.trunc(duration.minutes || 0)}</Typography>
+      <Typography>mins</Typography>
+    </Box>
+  )
+}
+
 const CountdownHero = () => {
+  const deployedTimestamp = process.env.NEXT_PUBLIC_CONTRACT_DEPLOYED_TIMESTAMP!
+  const allowListDuration = process.env.NEXT_PUBLIC_ALLOW_LIST_DURATION!
+  const whiteListDuration = process.env.NEXT_PUBLIC_WHITE_LIST_DURATION!
+
   const {
     control,
     formState: { errors },
@@ -20,11 +48,51 @@ const CountdownHero = () => {
   } = useForm({ resolver: yupResolver(statusSchema) })
   const dispatch = useDispatch()
 
+  const [remainingMs, setRemainingMs] = useState(0)
+  const intervalLength = 1000
+  let countdown: NodeJS.Timer | null = null
+
   const onCheckStatus = (data: { [x: string]: string }) => {
     dispatch(checkWallet({ walletAddress: data.address }))
   }
 
-  // useEffect(() => {}, [checkedWallet])
+  const startTimer = () => {
+    if (deployedTimestamp && allowListDuration && whiteListDuration) {
+      const start = BigNumber.from(deployedTimestamp).toNumber() * 1000
+      const allowListDurationMs = DateTime.fromMillis(start)
+        .plus({ days: parseInt(allowListDuration) })
+        .diffNow('millisecond')
+        .toMillis()
+
+      if (allowListDurationMs > 0) {
+        setRemainingMs(allowListDurationMs)
+        countdown = setInterval(() => {
+          setRemainingMs((duration) => duration - 1000)
+        }, intervalLength)
+      } else {
+        const whiteListDurationMs = DateTime.fromMillis(start)
+          .plus({ days: parseInt(allowListDuration) + parseInt(whiteListDuration) })
+          .diffNow('millisecond')
+          .toMillis()
+        if (whiteListDurationMs > 0) {
+          setRemainingMs(whiteListDurationMs)
+          countdown = setInterval(() => {
+            setRemainingMs((duration) => duration - 1000)
+          }, intervalLength)
+        }
+      }
+    }
+  }
+
+  const cancelTimer = () => {
+    countdown && clearInterval(countdown)
+    setRemainingMs(0)
+  }
+
+  useEffect(() => {
+    startTimer()
+    return () => cancelTimer()
+  }, [])
 
   return (
     <CountdownHeroStyle>
@@ -41,14 +109,7 @@ const CountdownHero = () => {
             Mint 倒计时:
           </Typography>
 
-          <Box className="countdown">
-            <Typography variant="h1">3</Typography>
-            <Typography>days :</Typography>
-            <Typography variant="h1">23</Typography>
-            <Typography>h :</Typography>
-            <Typography variant="h1">05</Typography>
-            <Typography>mins</Typography>
-          </Box>
+          <Countdown remainingMs={remainingMs} />
 
           <Box className="check-status">
             <Typography variant="h1" className="countdown-hero-subtext">
