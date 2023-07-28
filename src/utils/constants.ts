@@ -18,11 +18,23 @@ export const PATHS = {
   HOME: '/'
 }
 
-export enum EAccountType {
-  WALLET_IN_BOTH_LIST = 'WALLET_IN_BOTH_LIST',
-  WALLET_IN_ALLOW_LIST_ONLY = 'WALLET_IN_ALLOW_LIST_ONLY',
-  WALLET_IN_WHITE_LIST_ONLY = 'WALLET_IN_WHITE_LIST_ONLY',
-  WALLET_NOT_IN_BOTH_LIST = 'WALLET_NOT_IN_BOTH_LIST'
+export const AccountType = {
+  WALLET_IN_BOTH_LIST: {
+    status: 'WALLET_IN_BOTH_LIST',
+    msg: 'This address is on the whitelist and allowlist.'
+  },
+  WALLET_IN_ALLOW_LIST_ONLY: {
+    status: 'WALLET_IN_ALLOW_LIST_ONLY',
+    msg: 'This address is on the allowlist.'
+  },
+  WALLET_IN_WHITE_LIST_ONLY: {
+    status: 'WALLET_IN_WHITE_LIST_ONLY',
+    msg: 'This address is on the whitelist.'
+  },
+  WALLET_NOT_IN_BOTH_LIST: {
+    status: 'WALLET_NOT_IN_BOTH_LIST',
+    msg: 'Sorry, this address is not on the list.'
+  }
 }
 
 export enum EWalletListType {

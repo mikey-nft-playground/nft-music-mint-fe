@@ -37,8 +37,10 @@ const UserIndicator = (props: IUserIndicatorProps) => {
   }
 
   const onDisconnectMetaMask = async () => {
-    if (connector.deactivate) {
+    if (connector?.deactivate) {
       await connector.deactivate()
+    } else {
+      await connector.resetState()
     }
   }
 
