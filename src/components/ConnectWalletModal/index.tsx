@@ -1,8 +1,13 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useWeb3React } from '@web3-react/core'
 import Image from 'next/image'
+import { parseCookies, setCookie } from 'nookies'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Web3 from 'web3'
 
+import { closeConnectWalletModal } from '~/store/slices/local.slice'
+import { COOKIES } from '~/utils/constants'
 import AppModal from '../AppModal'
 import { ConnectWalletModalStyle } from './index.style'
 
@@ -13,7 +18,13 @@ type IConnectWalletModalProps = {
 
 const ConnectWalletModal = (props: IConnectWalletModalProps) => {
   const { open, onClose } = props
-  const { connector } = useWeb3React()
+  const dispatch = useDispatch()
+  const cookies = parseCookies()
+  const { connector, hooks } = useWeb3React()
+  const { useSelectedAccount } = hooks
+  const account = useSelectedAccount(connector)
+
+  const [loading, setLoading] = useState(false)
 
   const onConnectMetaMask = async () => {
     const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
@@ -29,7 +40,13 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
             console.log('Network changed rejected', err)
           }
         } else {
-          await connector.activate(chainId)
+          setLoading(true)
+          try {
+            await connector.activate(chainId)
+          } catch (err) {
+            console.log('User rejected the request', err)
+            setLoading(false)
+          }
         }
       } else {
         // Download MetaMask
@@ -38,6 +55,46 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
       console.log(error)
     }
   }
+
+  const sign = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const provider = connector.provider
+        const date = new Date()
+        if (provider) {
+          const signResponse = await provider.request({
+            method: 'personal_sign',
+            params: [
+              `I want to login on GroundUp Genesis Pass at ${date}.
+                \nI accept the GroundUp Terms of Service and I am at least 13 years old.`,
+              account
+            ]
+          })
+          resolve(signResponse)
+        } else {
+          reject()
+        }
+      } catch (err) {
+        reject(err)
+      }
+    })
+  }
+
+  useEffect(() => {
+    if (account && !cookies[COOKIES.SIGNATURE]) {
+      sign()
+        .then((signature: any) => {
+          if (signature) {
+            dispatch(closeConnectWalletModal())
+            setCookie(null, COOKIES.SIGNATURE, signature, { path: '/' })
+          }
+          setLoading(false)
+        })
+        .catch(() => {
+          setLoading(false)
+        })
+    }
+  }, [account])
 
   return (
     <AppModal open={open} onClose={onClose}>
@@ -55,7 +112,11 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
             <Box className="wallet-list">
               <Typography className="heading">Popular</Typography>
 
-              <Button className="wallet-btn metamask" onClick={onConnectMetaMask} disableRipple>
+              <Button
+                className={`wallet-btn metamask ${loading ? 'loading' : ''}`}
+                disabled={!!loading}
+                onClick={onConnectMetaMask}
+                disableRipple>
                 <Box className="btn-wrapper">
                   <svg viewBox="0 0 25 24" fill="none" width="24" height="24">
                     <path

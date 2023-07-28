@@ -4,11 +4,12 @@ import Grow from '@mui/material/Grow'
 import Fade from '@mui/material/Fade'
 import { useWeb3React } from '@web3-react/core'
 import Link from 'next/link'
+import { destroyCookie } from 'nookies'
 import Jazzicon from 'react-jazzicon'
 import { useState } from 'react'
 
 import { UserIndicatorDropdownMenuStyle, UserIndicatorStyle } from './index.style'
-import { PATHS } from '~/utils/constants'
+import { COOKIES, PATHS } from '~/utils/constants'
 import { formatAccountAddress } from '~/utils/wallet'
 import Image from 'next/image'
 
@@ -42,6 +43,7 @@ const UserIndicator = (props: IUserIndicatorProps) => {
     } else {
       await connector.resetState()
     }
+    destroyCookie(null, COOKIES.SIGNATURE, { path: '/' })
   }
 
   return (

@@ -95,6 +95,12 @@ export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
             }
           },
 
+          '&.loading': {
+            svg: {
+              display: 'block'
+            }
+          },
+
           '.btn-wrapper': {
             display: 'inline-flex',
             alignItems: 'center',
@@ -104,6 +110,7 @@ export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
           },
 
           svg: {
+            display: 'none',
             marginRight: '0.5rem',
             color: rgba(theme.primary, 0.6),
             animation: '1s linear 0s infinite normal forwards running rotate'

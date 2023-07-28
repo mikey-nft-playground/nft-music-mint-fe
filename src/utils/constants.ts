@@ -18,6 +18,10 @@ export const PATHS = {
   HOME: '/'
 }
 
+export const COOKIES = {
+  SIGNATURE: '_sig'
+}
+
 export const AccountType = {
   WALLET_IN_BOTH_LIST: {
     status: 'WALLET_IN_BOTH_LIST',
