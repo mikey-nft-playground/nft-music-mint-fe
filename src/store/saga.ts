@@ -1,10 +1,13 @@
 import { all, takeLatest } from 'redux-saga/effects'
 
-import { checkWallet } from './slices/wallet.slice'
-import { checkWalletSaga } from './saga/wallet.saga'
+import { checkWallet, getProof } from './slices/wallet.slice'
+import { checkWalletSaga, getProofSaga } from './saga/wallet.saga'
 
 function* rootSaga() {
-  yield all([takeLatest(checkWallet.type, checkWalletSaga)])
+  yield all([
+    takeLatest(checkWallet.type, checkWalletSaga),
+    takeLatest(getProof.type, getProofSaga)
+  ])
 }
 
 export default rootSaga
