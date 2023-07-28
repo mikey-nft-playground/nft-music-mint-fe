@@ -2,8 +2,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import EastRoundedIcon from '@mui/icons-material/EastRounded'
 import { Box, FormControl, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
+import { checkWallet } from '~/store/slices/wallet.slice'
 import { CountdownHeroStyle } from './index.style'
 
 const statusSchema = yup.object().shape({
@@ -16,10 +18,13 @@ const CountdownHero = () => {
     formState: { errors },
     handleSubmit
   } = useForm({ resolver: yupResolver(statusSchema) })
+  const dispatch = useDispatch()
 
   const onCheckStatus = (data: { [x: string]: string }) => {
-    console.log('Address: ', data)
+    dispatch(checkWallet({ walletAddress: data.address }))
   }
+
+  // useEffect(() => {}, [checkedWallet])
 
   return (
     <CountdownHeroStyle>

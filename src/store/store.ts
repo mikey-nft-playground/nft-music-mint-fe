@@ -4,6 +4,7 @@ import Router from 'next/router'
 import createSagaMiddleware from 'redux-saga'
 
 import localReducer from './slices/local.slice'
+import walletReducer from './slices/wallet.slice'
 import rootSaga from './saga'
 
 const routerMiddleware = createRouterMiddleware()
@@ -12,6 +13,7 @@ const { asPath } = Router.router || {}
 
 const reducer = combineReducers({
   local: localReducer,
+  wallet: walletReducer,
   router: routerReducer
 })
 
