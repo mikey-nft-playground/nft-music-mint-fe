@@ -4,14 +4,19 @@ import React, { useState } from 'react'
 import { QuantityPickerStyle } from './index.style'
 
 const QuantityPicker = (props: any) => {
+  const { onChange } = props
   const [quantity, setQuantity] = useState(1)
 
   const increment = () => {
-    setQuantity((quantity) => ++quantity)
+    const qty = quantity < 2 ? quantity + 1 : quantity
+    setQuantity(qty)
+    onChange(qty)
   }
 
   const decrement = () => {
-    setQuantity((quantity) => (quantity > 1 ? --quantity : 1))
+    const qty = quantity > 1 ? quantity - 1 : 1
+    setQuantity(qty)
+    onChange(qty)
   }
 
   return (

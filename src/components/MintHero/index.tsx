@@ -1,16 +1,21 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useWeb3React } from '@web3-react/core'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { RevertedMessages } from '~/contracts'
+import { openConnectWalletModal } from '~/store/slices/local.slice'
 import { getProof, resetProof } from '~/store/slices/wallet.slice'
 import { RootState } from '~/store/store'
 import { mintBlockchain } from '~/utils/blockchain'
-import QuantityPicker from '../QuantityPicker'
-import { MintHeroStyle } from './index.style'
 import { EWalletListType } from '~/utils/constants'
-import { openConnectWalletModal } from '~/store/slices/local.slice'
+
+import QuantityPicker from '../QuantityPicker'
+import ConfirmationModal from './ConfirmationModal'
+import LoadingModal from './LoadingModal'
+import { MintHeroStyle } from './index.style'
+
+const NFT_PRICE = 0.02
 
 const MintHero = () => {
   const dispatch = useDispatch()
@@ -19,26 +24,52 @@ const MintHero = () => {
   const { useSelectedAccount } = hooks
   const account = useSelectedAccount(connector)
 
-  async function handleMintNFTs(amount: number) {
-    // await requestAccount()
+  const [quantity, setQuantity] = useState(1)
+  const [isConfirmationModalOpened, setConfirmationModalOpened] = useState(false)
+  const [isLoadingModalOpened, setLoadingModalOpened] = useState(false)
+
+  const onQuantityChange = (qty: number) => {
+    setQuantity(qty)
+  }
+
+  const onOpenConfirmationModal = () => {
     if (!account) {
       dispatch(openConnectWalletModal())
     } else {
+      setConfirmationModalOpened(true)
+    }
+  }
+
+  const onCloseConfirmationModal = () => {
+    setConfirmationModalOpened(false)
+    onCloseLoadingModal()
+  }
+
+  const onOpenLoadingModal = () => {
+    setLoadingModalOpened(true)
+    handleMintNFTs()
+  }
+
+  const onCloseLoadingModal = () => {
+    setLoadingModalOpened(false)
+  }
+
+  const handleMintNFTs = async () => {
+    if (account)
       dispatch(
         getProof({
           walletAddress: account,
           type: EWalletListType.ALLOW_LIST
         })
       )
-    }
   }
 
   useEffect(() => {
     if (gotProof && !!proof.length) {
       mintBlockchain({
-        amount: 1,
+        amount: quantity,
         merkleProof: proof,
-        value: '0.05'
+        value: NFT_PRICE.toString()
       })
         .then(() => {
           console.log('Mint done!')
@@ -73,7 +104,7 @@ const MintHero = () => {
 
           <Box className="mint-hero-account">
             <Typography className="mint-hero-intro-text">NFT总量 : 2,500</Typography>
-            <Typography className="mint-hero-intro-text">MINT Price : 0.02eth</Typography>
+            <Typography className="mint-hero-intro-text">MINT Price : {NFT_PRICE}eth</Typography>
           </Box>
 
           <Box className="mint-hero-info">
@@ -90,16 +121,26 @@ const MintHero = () => {
             <Box style={{ display: 'flex', flexDirection: 'column', margin: '0 auto' }}>
               <Box className="mint-box">
                 <Typography className="mint-hero-intro-text">Mint</Typography>
-                <QuantityPicker />
-                <Typography className="mint-hero-intro-text">0.02eth</Typography>
+                <QuantityPicker onChange={onQuantityChange} />
+                <Typography className="mint-hero-intro-text">{NFT_PRICE * quantity}eth</Typography>
               </Box>
-              <Button className="mint-btn" onClick={async () => handleMintNFTs(1)}>
+              <Button className="mint-btn" onClick={onOpenConfirmationModal}>
                 Mint
               </Button>
             </Box>
           </Box>
         </Box>
       </Box>
+
+      <ConfirmationModal
+        open={isConfirmationModalOpened}
+        onClose={onCloseConfirmationModal}
+        onConfirm={onOpenLoadingModal}
+        quantity={quantity}
+        price={NFT_PRICE}
+      />
+
+      <LoadingModal open={isLoadingModalOpened} onClose={onCloseLoadingModal} />
     </MintHeroStyle>
   )
 }
