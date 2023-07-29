@@ -153,7 +153,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
         '.wallet-address-input': {
           display: 'flex',
           marginTop: '1rem',
-          marginBottom: '1rem',
+          marginBottom: '0.5rem',
 
           [theme.breakpoints.up('sm')]: {
             marginTop: '1.5rem'
@@ -189,6 +189,37 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
           fieldset: {
             borderWidth: 2,
             borderColor: rgba(theme.contrast, 0.6)
+          },
+
+          '.Mui-error': {
+            fieldset: {
+              borderColor: rgba(theme.error, 0.6)
+            }
+          }
+        },
+
+        '.wallet-address-error': {
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.25rem',
+          marginTop: '0.5rem',
+          color: theme.error,
+          fontWeight: 500,
+          opacity: 0,
+          visibility: 'hidden',
+          minHeight: '20px',
+
+          '&.visible': {
+            opacity: 1,
+            visibility: 'visible'
+          },
+
+          svg: {
+            fontSize: '1.25rem'
+          },
+
+          p: {
+            fontSize: '0.825rem'
           }
         }
       },

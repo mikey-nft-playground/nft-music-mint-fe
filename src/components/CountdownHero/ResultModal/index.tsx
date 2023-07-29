@@ -25,7 +25,8 @@ const ResultModal = (props: IResultModalProps) => {
           <Box className="rs-modal-body">
             {address && (
               <Typography className="content">
-                <span>Wallet address:</span> {formatAccountAddress(address)}
+                <span>Wallet address: </span>
+                <em>{formatAccountAddress(address)}</em>
               </Typography>
             )}
             {result && (

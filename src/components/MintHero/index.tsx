@@ -34,7 +34,6 @@ const MintHero = () => {
   }
 
   useEffect(() => {
-    console.log('1.....', gotProof, proof)
     if (gotProof && !!proof.length) {
       mintBlockchain({
         amount: 1,

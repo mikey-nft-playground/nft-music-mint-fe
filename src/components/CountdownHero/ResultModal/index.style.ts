@@ -50,6 +50,12 @@ export const ResultModalStyle = styled('div')(({ theme }: any) => {
 
           span: {
             color: rgba(theme.primary, 0.6)
+          },
+
+          em: {
+            color: theme.link,
+            fontFamily: '"Martian Mono", "Roboto Mono", monospace',
+            fontStyle: 'normal'
           }
         },
 

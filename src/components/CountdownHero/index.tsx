@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
+import { isAddress } from 'web3-validator'
 
 import { checkWallet, resetCheckWalletResult } from '~/store/slices/wallet.slice'
 import { RootState } from '~/store/store'
@@ -14,7 +15,10 @@ import { CountdownHeroStyle } from './index.style'
 import ResultModal from './ResultModal'
 
 const statusSchema = yup.object().shape({
-  address: yup.string().required('Please enter your wallet address')
+  address: yup
+    .string()
+    .required('"Wallet address" is not allowed to be empty')
+    .test('valid', 'Invalid wallet address', (value) => isAddress(value + ''))
 })
 
 const Countdown = (props: { remainingMs: number }) => {
@@ -150,6 +154,7 @@ const CountdownHero = () => {
                     placeholder="Wallet address"
                     value={field.value || ''}
                     onChange={field.onChange}
+                    error={!!errors.address}
                     autoCapitalize="off"
                     autoComplete="off"
                     autoCorrect="off"
@@ -170,7 +175,7 @@ const CountdownHero = () => {
                 )}
               />
               <Box
-                className={`feedback-error ${
+                className={`wallet-address-error ${
                   errors.address && errors.address.message ? 'visible' : ''
                 }`}>
                 {/* <NotificationImportantIcon /> */}
