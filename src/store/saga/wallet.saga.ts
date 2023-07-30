@@ -8,7 +8,6 @@ import {
   getProofError,
   getProofSuccess
 } from '../slices/wallet.slice'
-import { EWalletListType } from '~/utils/constants'
 
 export function* checkWalletSaga(action: PayloadAction<{ walletAddress: string }>) {
   try {
@@ -21,9 +20,7 @@ export function* checkWalletSaga(action: PayloadAction<{ walletAddress: string }
   }
 }
 
-export function* getProofSaga(
-  action: PayloadAction<{ walletAddress: string; type: EWalletListType }>
-) {
+export function* getProofSaga(action: PayloadAction<{ walletAddress: string; type: string }>) {
   try {
     const { data } = yield call(walletApi.proof, action.payload)
     if (data && data.merkleProof) {

@@ -16,7 +16,7 @@ export const UserIndicatorDropdownMenuStyle = styled(Menu)(({ theme }: any) => {
   return {
     '.MuiBackdrop-root': {
       [theme.breakpoints.down('sm')]: {
-        backgroundColor: 'rgb(121 121 121 / 50%)'
+        backgroundColor: rgba(theme.primary, 0.9)
       }
     },
 
@@ -36,7 +36,7 @@ export const UserIndicatorDropdownMenuStyle = styled(Menu)(({ theme }: any) => {
         top: 'unset!important',
         left: '0!important',
         bottom: 0,
-        minHeight: '80vh'
+        minHeight: '60vh'
       },
 
       [theme.breakpoints.up('sm')]: {

@@ -3,9 +3,6 @@ import { rgba } from 'emotion-rgba'
 
 export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
   return {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // alignItems: 'center',
     color: theme.contrast,
     backgroundColor: '#3c2edd',
     backgroundImage: 'linear-gradient(200deg, #2927bd 41%, #347fe3)',

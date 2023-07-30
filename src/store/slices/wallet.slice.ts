@@ -1,24 +1,25 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { EWalletListType } from '~/utils/constants'
 
 interface IWalletState {
   checkingWallet: boolean
   checkedWallet: boolean
   checkWalletResult: string | null
+  checkWalletError: any
   gettingProof: boolean
   gotProof: boolean
   proof: string[]
-  error: any
+  getProofError: any
 }
 
 const walletState: IWalletState = {
   checkingWallet: false,
   checkedWallet: false,
   checkWalletResult: null,
+  checkWalletError: null,
   gettingProof: false,
   gotProof: false,
   proof: [],
-  error: null
+  getProofError: null
 }
 
 const walletSlice = createSlice({
@@ -40,18 +41,19 @@ const walletSlice = createSlice({
     checkWalletError(state, action) {
       state.checkingWallet = false
       state.checkedWallet = false
-      state.error = action.payload
+      state.checkWalletError = action.payload
     },
     resetCheckWalletResult(state) {
       state.checkingWallet = false
       state.checkedWallet = false
       state.checkWalletResult = null
+      state.checkWalletError = null
     },
 
     /**
      * getProof
      */
-    getProof(state, action: PayloadAction<{ walletAddress: string; type: EWalletListType }>) {
+    getProof(state, action: PayloadAction<{ walletAddress: string; type: string }>) {
       state.gettingProof = true
       state.gotProof = false
     },
@@ -63,12 +65,13 @@ const walletSlice = createSlice({
     getProofError(state, action) {
       state.gettingProof = false
       state.gotProof = false
-      state.error = action.payload
+      state.getProofError = action.payload
     },
     resetProof(state) {
       state.gettingProof = false
       state.gotProof = false
       state.proof = []
+      state.getProofError = null
     }
   }
 })

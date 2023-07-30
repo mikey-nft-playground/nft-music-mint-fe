@@ -44,8 +44,7 @@ const Countdown = (props: { remainingMs: number }) => {
 
 const CountdownHero = () => {
   const deployedTimestamp = process.env.NEXT_PUBLIC_CONTRACT_DEPLOYED_TIMESTAMP!
-  const allowListDuration = process.env.NEXT_PUBLIC_ALLOW_LIST_DURATION!
-  const whiteListDuration = process.env.NEXT_PUBLIC_WHITE_LIST_DURATION!
+  const eventDuration = process.env.NEXT_PUBLIC_EVENT_DURATION!
 
   const {
     control,
@@ -78,29 +77,18 @@ const CountdownHero = () => {
   }
 
   const startTimer = () => {
-    if (deployedTimestamp && allowListDuration && whiteListDuration) {
+    if (deployedTimestamp && eventDuration) {
       const start = BigNumber.from(deployedTimestamp).toNumber() * 1000
-      const allowListDurationMs = DateTime.fromMillis(start)
-        .plus({ days: parseInt(allowListDuration) })
+      const eventDurationMs = DateTime.fromMillis(start)
+        .plus({ days: parseInt(eventDuration) })
         .diffNow('millisecond')
         .toMillis()
 
-      if (allowListDurationMs > 0) {
-        setRemainingMs(allowListDurationMs)
+      if (eventDurationMs > 0) {
+        setRemainingMs(eventDurationMs)
         countdown = setInterval(() => {
           setRemainingMs((duration) => duration - 1000)
         }, intervalLength)
-      } else {
-        const whiteListDurationMs = DateTime.fromMillis(start)
-          .plus({ days: parseInt(allowListDuration) + parseInt(whiteListDuration) })
-          .diffNow('millisecond')
-          .toMillis()
-        if (whiteListDurationMs > 0) {
-          setRemainingMs(whiteListDurationMs)
-          countdown = setInterval(() => {
-            setRemainingMs((duration) => duration - 1000)
-          }, intervalLength)
-        }
       }
     }
   }
