@@ -1,5 +1,6 @@
 import { useTheme } from '@emotion/react'
-import { Box, Button, useMediaQuery } from '@mui/material'
+import MenuOpenRoundedIcon from '@mui/icons-material/MenuOpenRounded'
+import { Box, Button, IconButton, Typography, useMediaQuery } from '@mui/material'
 import Tooltip, { tooltipClasses, TooltipProps } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
 import { useWeb3React } from '@web3-react/core'
@@ -15,7 +16,9 @@ import { PATHS } from '~/utils/constants'
 import BrandSite from './BrandSite'
 import MenuItem from './MenuItem'
 import UserIndicator from './UserIndicator'
-import { HeaderStyle } from './index.style'
+import { HeaderStyle, MobileModalStyle } from './index.style'
+import AppModal from '../AppModal'
+import { useState } from 'react'
 
 const TooltipStyle = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -32,8 +35,8 @@ const Header = () => {
 
   const { connector, hooks } = useWeb3React()
   const { useSelectedAccount } = hooks
-
   const account = useSelectedAccount(connector)
+  const [isMobileModalOpened, setMobileModalOpened] = useState(false)
 
   const onOpenConnectWalletModal = () => {
     if (typeof window.ethereum !== 'undefined') {
@@ -41,6 +44,14 @@ const Header = () => {
     } else {
       dispatch(openDownloadMetaMaskModal())
     }
+  }
+
+  const onOpenMobileModal = () => {
+    setMobileModalOpened(true)
+  }
+
+  const onCloseMobileModal = () => {
+    setMobileModalOpened(false)
   }
 
   return (
@@ -58,31 +69,37 @@ const Header = () => {
               </Box>
 
               <Box>
-                <TooltipStyle title="Twitter">
-                  <Link
-                    href="#"
-                    target="_blank"
-                    className="icon-button twitter"
-                    aria-label="Twitter">
-                    <Twitter height="0.875rem" />
-                  </Link>
-                </TooltipStyle>
+                <Box className="socials">
+                  <TooltipStyle title="Twitter">
+                    <Link
+                      href="#"
+                      target="_blank"
+                      className="icon-button twitter"
+                      aria-label="Twitter">
+                      <Twitter height="0.875rem" />
+                    </Link>
+                  </TooltipStyle>
 
-                <TooltipStyle title="Medium">
-                  <Link href="#" target="_blank" className="icon-button medium" aria-label="Medium">
-                    <Medium height="1.525rem" />
-                  </Link>
-                </TooltipStyle>
+                  <TooltipStyle title="Medium">
+                    <Link
+                      href="#"
+                      target="_blank"
+                      className="icon-button medium"
+                      aria-label="Medium">
+                      <Medium height="1.525rem" />
+                    </Link>
+                  </TooltipStyle>
 
-                <TooltipStyle title="Discord">
-                  <Link
-                    href="#"
-                    target="_blank"
-                    className="icon-button discord"
-                    aria-label="Discord">
-                    <Discord height="1rem" />
-                  </Link>
-                </TooltipStyle>
+                  <TooltipStyle title="Discord">
+                    <Link
+                      href="#"
+                      target="_blank"
+                      className="icon-button discord"
+                      aria-label="Discord">
+                      <Discord height="1rem" />
+                    </Link>
+                  </TooltipStyle>
+                </Box>
 
                 {account ? (
                   <>
@@ -93,9 +110,58 @@ const Header = () => {
                     Connect Wallet
                   </Button>
                 )}
+
+                <IconButton className="mobile-icon" onClick={onOpenMobileModal}>
+                  <MenuOpenRoundedIcon />
+                </IconButton>
               </Box>
             </Box>
           </Box>
+
+          <AppModal open={isMobileModalOpened} onClose={onCloseMobileModal}>
+            <MobileModalStyle>
+              <Box className="mobile-modal">
+                <Typography variant="h1" className="mobile-modal-header">
+                  GroundUp Genesis Pass
+                </Typography>
+
+                <Box className="mobile-modal-body">
+                  <MenuItem href={PATHS.HOME}>Genesis NFT</MenuItem>
+                  <Box className="socials">
+                    <TooltipStyle title="Twitter">
+                      <Link
+                        href="#"
+                        target="_blank"
+                        className="icon-button twitter"
+                        aria-label="Twitter">
+                        <Twitter height="0.875rem" />
+                      </Link>
+                    </TooltipStyle>
+
+                    <TooltipStyle title="Medium">
+                      <Link
+                        href="#"
+                        target="_blank"
+                        className="icon-button medium"
+                        aria-label="Medium">
+                        <Medium height="1.525rem" />
+                      </Link>
+                    </TooltipStyle>
+
+                    <TooltipStyle title="Discord">
+                      <Link
+                        href="#"
+                        target="_blank"
+                        className="icon-button discord"
+                        aria-label="Discord">
+                        <Discord height="1rem" />
+                      </Link>
+                    </TooltipStyle>
+                  </Box>
+                </Box>
+              </Box>
+            </MobileModalStyle>
+          </AppModal>
         </Box>
       </Box>
       <Box className="header-safe"></Box>
