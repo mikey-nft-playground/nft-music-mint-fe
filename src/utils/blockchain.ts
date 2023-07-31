@@ -11,6 +11,22 @@ export async function requestAccount() {
   )
 }
 
+export const getStatusBlockchain = async (): Promise<number> => {
+  console.log('getStatus BC')
+  return new Promise(async (resolve, reject) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
+      const GroundUp721AContract = getGroundUp721AContract(ERC721A_ADDRESS, signer)
+
+      const tx = GroundUp721AContract.status()
+      resolve(tx)
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
 export const mintBlockchain = async (data: {
   amount: number
   merkleProof: string[]

@@ -69,7 +69,9 @@ const MintResultModal = (props: IMintResultModalProps) => {
 
             <Button className="mr-btn center" onClick={onClose}>
               <Box className="btn-content">
-                <Typography>Confirm</Typography>
+                <Typography>
+                  {{ [EStatus.SUCCESS]: 'Confirm', [EStatus.ERROR]: 'Cancel' }[status]}
+                </Typography>
               </Box>
             </Button>
           </Box>

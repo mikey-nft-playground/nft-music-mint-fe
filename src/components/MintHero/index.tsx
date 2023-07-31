@@ -8,8 +8,8 @@ import { RevertedMessages } from '~/contracts'
 import { openConnectWalletModal, openDownloadMetaMaskModal } from '~/store/slices/local.slice'
 import { getProof, resetProof } from '~/store/slices/wallet.slice'
 import { RootState } from '~/store/store'
-import { mintBlockchain } from '~/utils/blockchain'
-import { COOKIES } from '~/utils/constants'
+import { getStatusBlockchain, mintBlockchain } from '~/utils/blockchain'
+import { COOKIES, EWalletListType } from '~/utils/constants'
 
 import QuantityPicker from '../QuantityPicker'
 import ConfirmationModal from './ConfirmationModal'
@@ -79,13 +79,29 @@ const MintHero = () => {
   }
 
   const handleMintNFTs = async () => {
-    if (account)
-      dispatch(
-        getProof({
-          walletAddress: account,
-          type: process.env.NEXT_PUBLIC_EVENT_TYPE!
+    if (account) {
+      getStatusBlockchain()
+        .then((status: number) => {
+          console.log('SmartContract status: ', status)
+          switch (status) {
+            case 1:
+              dispatch(getProof({ walletAddress: account, type: EWalletListType.ALLOW_LIST }))
+              break
+            case 2:
+              dispatch(getProof({ walletAddress: account, type: EWalletListType.WHITE_LIST }))
+              break
+            case 3:
+              setMintStatus(EStatus.ERROR)
+              setMintError('Event is over!')
+              onOpenMintResultModal()
+          }
         })
-      )
+        .catch((err) => {
+          setMintStatus(EStatus.ERROR)
+          setMintError('Something went wrong.')
+          onOpenMintResultModal()
+        })
+    }
   }
 
   useEffect(() => {
