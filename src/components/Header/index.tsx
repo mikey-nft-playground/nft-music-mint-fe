@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 import Twitter from '~/assets/social-icons/twitter.svg'
 import Medium from '~/assets/social-icons/medium.svg'
 import Discord from '~/assets/social-icons/discord.svg'
-import { openConnectWalletModal } from '~/store/slices/local.slice'
+import { openConnectWalletModal, openDownloadMetaMaskModal } from '~/store/slices/local.slice'
 import { PATHS } from '~/utils/constants'
 
 import BrandSite from './BrandSite'
@@ -36,7 +36,11 @@ const Header = () => {
   const account = useSelectedAccount(connector)
 
   const onOpenConnectWalletModal = () => {
-    dispatch(openConnectWalletModal())
+    if (typeof window.ethereum !== 'undefined') {
+      dispatch(openConnectWalletModal())
+    } else {
+      dispatch(openDownloadMetaMaskModal())
+    }
   }
 
   return (

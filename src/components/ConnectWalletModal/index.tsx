@@ -29,27 +29,23 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
   const onConnectMetaMask = async () => {
     const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
     try {
-      if (typeof window.ethereum !== 'undefined') {
-        if (chainId && window.ethereum.networkVersion !== chainId) {
-          try {
-            await window.ethereum.request({
-              method: 'wallet_switchEthereumChain',
-              params: [{ chainId: Web3.utils.toHex(parseInt(chainId)) }]
-            })
-          } catch (err: any) {
-            console.log('Network changed rejected', err)
-          }
-        } else {
-          setLoading(true)
-          try {
-            await connector.activate(chainId)
-          } catch (err) {
-            console.log('User rejected the request', err)
-            setLoading(false)
-          }
+      if (chainId && window.ethereum && window.ethereum.networkVersion !== chainId) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: Web3.utils.toHex(parseInt(chainId)) }]
+          })
+        } catch (err: any) {
+          console.log('Network changed rejected', err)
         }
       } else {
-        // Download MetaMask
+        setLoading(true)
+        try {
+          await connector.activate(chainId)
+        } catch (err) {
+          console.log('User rejected the request', err)
+          setLoading(false)
+        }
       }
     } catch (error) {
       console.log(error)

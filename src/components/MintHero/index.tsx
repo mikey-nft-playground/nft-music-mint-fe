@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { RevertedMessages } from '~/contracts'
-import { openConnectWalletModal } from '~/store/slices/local.slice'
+import { openConnectWalletModal, openDownloadMetaMaskModal } from '~/store/slices/local.slice'
 import { getProof, resetProof } from '~/store/slices/wallet.slice'
 import { RootState } from '~/store/store'
 import { mintBlockchain } from '~/utils/blockchain'
@@ -42,7 +42,11 @@ const MintHero = () => {
   const onOpenConfirmationModal = () => {
     setMintBtnClicked(true)
     if (!account) {
-      dispatch(openConnectWalletModal())
+      if (typeof window.ethereum !== 'undefined') {
+        dispatch(openConnectWalletModal())
+      } else {
+        dispatch(openDownloadMetaMaskModal())
+      }
     } else {
       setConfirmationModalOpened(true)
     }

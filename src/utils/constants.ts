@@ -15,7 +15,8 @@ export const SITE_KEYWORDS = [
 ]
 
 export const PATHS = {
-  HOME: '/'
+  HOME: '/',
+  METAMASK_DOWNLOAD: 'https://metamask.io/download/#listing'
 }
 
 export const COOKIES = {
@@ -23,10 +24,10 @@ export const COOKIES = {
 }
 
 export const AccountType = [
-  { status: 'WALLET_IN_BOTH_LIST', msg: 'This address is on the whitelist and allowlist.' },
-  { status: 'WALLET_IN_ALLOW_LIST_ONLY', msg: 'This address is on the allowlist.' },
-  { status: 'WALLET_IN_WHITE_LIST_ONLY', msg: 'This address is on the whitelist.' },
-  { status: 'WALLET_NOT_IN_BOTH_LIST', msg: 'Sorry, this address is not on the list.' }
+  { status: 'WALLET_IN_BOTH_LIST', msg: 'Your wallet address is in both Allowlist and Whitelist.' },
+  { status: 'WALLET_IN_ALLOW_LIST_ONLY', msg: 'Your wallet address is in Allowlist.' },
+  { status: 'WALLET_IN_WHITE_LIST_ONLY', msg: 'Your wallet address is in Whitelist.' },
+  { status: 'WALLET_NOT_IN_BOTH_LIST', msg: 'Your wallet address is not eligible to mint.' }
 ]
 
 export enum EWalletListType {

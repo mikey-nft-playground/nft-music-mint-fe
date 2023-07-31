@@ -7,7 +7,7 @@ const themeColors = {
   primary: '#16161a',
   contrast: '#fff',
   link: '#007fff',
-  error: '#f8b025'
+  error: '#ffc14b'
 } as const
 
 const lightTheme = createTheme({

@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import ConnectWalletModal from '~/components/ConnectWalletModal'
 import CountdownHero from '~/components/CountdownHero'
+import DownloadMetaMaskModal from '~/components/DownloadMetaMaskModal'
 import Header from '~/components/Header'
 import MintHero from '~/components/MintHero'
-import { closeConnectWalletModal } from '~/store/slices/local.slice'
+import { closeConnectWalletModal, closeDownloadMetaMaskModal } from '~/store/slices/local.slice'
 import { RootState } from '~/store/store'
 import { COOKIES } from '~/utils/constants'
 
@@ -17,7 +18,13 @@ const LandingPage = () => {
   const dispatch = useDispatch()
   const cookies = parseCookies()
   const { connector } = useWeb3React()
-  const { isConnectWalletModalOpened } = useSelector((state: RootState) => state.local)
+  const { isDownloadMetaMaskModalOpened, isConnectWalletModalOpened } = useSelector(
+    (state: RootState) => state.local
+  )
+
+  const onCloseDownloadMetaMaskModal = () => {
+    dispatch(closeDownloadMetaMaskModal())
+  }
 
   const onCloseConnectWalletModal = () => {
     dispatch(closeConnectWalletModal())
@@ -26,13 +33,9 @@ const LandingPage = () => {
   useEffect(() => {
     const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
 
-    if (typeof window.ethereum !== 'undefined') {
-      if (chainId && window.ethereum.networkVersion === chainId) {
-        if (connector?.connectEagerly && cookies[COOKIES.SIGNATURE])
-          connector?.connectEagerly(chainId)
-      }
-    } else {
-      // Download MetaMask
+    if (chainId && window.ethereum && window.ethereum.networkVersion === chainId) {
+      if (connector?.connectEagerly && cookies[COOKIES.SIGNATURE])
+        connector?.connectEagerly(chainId)
     }
   }, [])
 
@@ -44,6 +47,10 @@ const LandingPage = () => {
         <CountdownHero />
         <MintHero />
         <ConnectWalletModal open={isConnectWalletModalOpened} onClose={onCloseConnectWalletModal} />
+        <DownloadMetaMaskModal
+          open={isDownloadMetaMaskModalOpened}
+          onClose={onCloseDownloadMetaMaskModal}
+        />
       </LandingPageStyle>
     </>
   )
