@@ -108,7 +108,7 @@ export const HeaderStyle = styled('header')(({ theme }: any) => {
         },
 
         '.mobile-icon': {
-          display: 'block',
+          display: 'inline-flex',
 
           [theme.breakpoints.up('md')]: {
             display: 'none'
