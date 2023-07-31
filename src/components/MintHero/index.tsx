@@ -17,7 +17,7 @@ import LoadingModal from './LoadingModal'
 import { MintHeroStyle } from './index.style'
 import MintResultModal, { EStatus } from './MintResultModal'
 
-const NFT_PRICE = 0.02
+const NFT_PRICE = process.env.NEXT_PUBLIC_NFT_PRICE || '0.02'
 
 const MintHero = () => {
   const dispatch = useDispatch()
@@ -171,7 +171,9 @@ const MintHero = () => {
               <Box className="mint-box">
                 <Typography className="mint-hero-intro-text">Mint</Typography>
                 <QuantityPicker onChange={onQuantityChange} />
-                <Typography className="mint-hero-intro-text">{NFT_PRICE * quantity}eth</Typography>
+                <Typography className="mint-hero-intro-text">
+                  {Number(NFT_PRICE) * quantity}eth
+                </Typography>
               </Box>
               <Button className="mint-btn" onClick={onOpenConfirmationModal}>
                 Mint
@@ -186,7 +188,7 @@ const MintHero = () => {
         onClose={onCloseConfirmationModal}
         onConfirm={onOpenLoadingModal}
         quantity={quantity}
-        price={NFT_PRICE}
+        price={Number(NFT_PRICE)}
       />
 
       <LoadingModal open={isLoadingModalOpened} onClose={onCloseLoadingModal} />

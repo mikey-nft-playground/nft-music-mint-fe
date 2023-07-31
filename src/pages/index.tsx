@@ -25,9 +25,14 @@ const LandingPage = () => {
 
   useEffect(() => {
     const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
-    if (chainId && window.ethereum.networkVersion === chainId) {
-      if (connector?.connectEagerly && cookies[COOKIES.SIGNATURE])
-        connector?.connectEagerly(chainId)
+
+    if (typeof window.ethereum !== 'undefined') {
+      if (chainId && window.ethereum.networkVersion === chainId) {
+        if (connector?.connectEagerly && cookies[COOKIES.SIGNATURE])
+          connector?.connectEagerly(chainId)
+      }
+    } else {
+      // Download MetaMask
     }
   }, [])
 

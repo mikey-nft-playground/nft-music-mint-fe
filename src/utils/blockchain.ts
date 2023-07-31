@@ -25,7 +25,7 @@ export const mintBlockchain = async (data: {
       const GroundUp721AContract = getGroundUp721AContract(ERC721A_ADDRESS, signer)
       const options = { value: ethers.utils.parseEther('0.05').mul(BigNumber.from(amount)) }
 
-      const tx = await GroundUp721AContract.mint(amount, merkleProof, options)
+      const tx = await GroundUp721AContract.Mint(amount, merkleProof, options)
       await tx.wait()
       resolve(tx)
     } catch (err) {
