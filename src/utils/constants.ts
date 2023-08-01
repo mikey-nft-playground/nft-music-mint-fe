@@ -16,6 +16,10 @@ export const SITE_KEYWORDS = [
 
 export const PATHS = {
   HOME: '/',
+  GENESIS_NFT: 'https://groundupstudios.io/',
+  TWITTER: 'https://twitter.com/StudiosGroundup',
+  MEDIUM: 'https://medium.com/@groundupstudios',
+  DISCORD: 'https://discord.gg/groundup',
   METAMASK_DOWNLOAD: 'https://metamask.io/download/#listing'
 }
 

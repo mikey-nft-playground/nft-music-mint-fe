@@ -172,15 +172,15 @@ const MintHero = () => {
           </Typography>
 
           <Box className="mint-hero-account">
-            <Typography className="mint-hero-intro-text">NFT总量 : 2,500</Typography>
+            <Typography className="mint-hero-intro-text">NFT amount : 2,500</Typography>
             <Typography className="mint-hero-intro-text">MINT Price : {NFT_PRICE}eth</Typography>
           </Box>
 
           <Box className="mint-hero-info">
-            <Typography className="mint-hero-intro-text">NFT介绍:</Typography>
+            <Typography className="mint-hero-intro-text">About GroundUp Studios:</Typography>
             <Typography className="mint-hero-text">
-              Groundup Studios is a forward-thinking, web3-focused music organization that views
-              music and are in a brand new light. We aspire to creat a borderless space for artists
+              GroundUp Studios is a forward-thinking, web3-focused music organization that views
+              music and are in a brand new light. We aspire to create a borderless space for artists
               to connect, create, collaborate and monetize by capitalizing on rapid evolving
               technologies, economics and consumer/artist dynamics.
             </Typography>

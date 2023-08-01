@@ -122,7 +122,7 @@ const CountdownHero = () => {
             GroundUp Genesis Pass
           </Typography>
           <Typography variant="h1" className="countdown-hero-subtext">
-            Mint 倒计时:
+            Countdown to Mint:
           </Typography>
 
           <Countdown remainingMs={remainingMs} />
@@ -132,46 +132,47 @@ const CountdownHero = () => {
               Check Status:
             </Typography>
 
-            <FormControl className="wallet-address-input">
-              <Controller
-                control={control}
-                name="address"
-                render={({ field }) => (
-                  <TextField
-                    id="form-wallet-address"
-                    placeholder="Wallet address"
-                    value={field.value || ''}
-                    onChange={field.onChange}
-                    error={!!errors.address}
-                    autoCapitalize="off"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    spellCheck="false"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={handleSubmit(onCheckStatus)}
-                            onMouseDown={() => {}}
-                            edge="end">
-                            <EastRoundedIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                )}
-              />
-              <Box
-                className={`wallet-address-error ${
-                  errors.address && errors.address.message ? 'visible' : ''
-                }`}>
-                {/* <NotificationImportantIcon /> */}
-                {errors.address && errors.address.message && (
-                  <Typography>{errors.address.message as string}</Typography>
-                )}
-              </Box>
-            </FormControl>
+            <form onSubmit={handleSubmit(onCheckStatus)}>
+              <FormControl className="wallet-address-input">
+                <Controller
+                  control={control}
+                  name="address"
+                  render={({ field }) => (
+                    <TextField
+                      id="form-wallet-address"
+                      placeholder="Wallet address"
+                      value={field.value || ''}
+                      onChange={field.onChange}
+                      error={!!errors.address}
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck="false"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={handleSubmit(onCheckStatus)}
+                              onMouseDown={() => {}}
+                              edge="end">
+                              <EastRoundedIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  )}
+                />
+                <Box
+                  className={`wallet-address-error ${
+                    errors.address && errors.address.message ? 'visible' : ''
+                  }`}>
+                  {errors.address && errors.address.message && (
+                    <Typography>{errors.address.message as string}</Typography>
+                  )}
+                </Box>
+              </FormControl>
+            </form>
 
             <ResultModal
               open={isResultModalOpened}
@@ -181,10 +182,10 @@ const CountdownHero = () => {
             />
 
             <Typography className="countdown-hero-intro-text">
-              Check your whiteliststatus by wallet address.
+              Check your whitelist status by wallet address.
             </Typography>
             <Typography className="countdown-hero-intro-text">
-              It may take a few minutes if you just submitted your wallet.
+              It may take a few minutes if you have just submitted your wallet.
             </Typography>
             <Typography className="countdown-hero-intro-text">No ENS please.</Typography>
           </Box>

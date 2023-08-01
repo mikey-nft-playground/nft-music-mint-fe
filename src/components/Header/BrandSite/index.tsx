@@ -11,14 +11,14 @@ type IBrandSiteProps = {
 }
 
 const BrandSite = (props: IBrandSiteProps) => {
-  const { width = 140, height = 50 } = props
+  const { width = 150, height = 50 } = props
 
   return (
     <BrandSiteStyle>
       <Link className="brand-site" href={PATHS.HOME} aria-label="GroundUp Logo">
         <Box className="brand-site-wrapper">
           <Typography variant="h1">GroundUp Logo</Typography>
-          <Image src="logo.svg" width={width} height={height} priority alt="GroundUp Logo" />
+          <Image src="logo.png" width={width} height={height} priority alt="GroundUp Logo" />
         </Box>
       </Link>
     </BrandSiteStyle>

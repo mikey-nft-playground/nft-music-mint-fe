@@ -60,19 +60,21 @@ const Header = () => {
         <Box className="header-container">
           <Box className="header-upper">
             <Box className="header-brand-site">
-              <BrandSite width={sm ? 140 : 100} />
+              <BrandSite width={150} />
             </Box>
 
             <Box className="header-main">
               <Box className="header-menu">
-                <MenuItem href={PATHS.HOME}>Genesis NFT</MenuItem>
+                <MenuItem href={PATHS.GENESIS_NFT} target="_blank">
+                  Genesis NFT
+                </MenuItem>
               </Box>
 
               <Box>
                 <Box className="socials">
                   <TooltipStyle title="Twitter">
                     <Link
-                      href="#"
+                      href={PATHS.TWITTER}
                       target="_blank"
                       className="icon-button twitter"
                       aria-label="Twitter">
@@ -82,7 +84,7 @@ const Header = () => {
 
                   <TooltipStyle title="Medium">
                     <Link
-                      href="#"
+                      href={PATHS.MEDIUM}
                       target="_blank"
                       className="icon-button medium"
                       aria-label="Medium">
@@ -92,7 +94,7 @@ const Header = () => {
 
                   <TooltipStyle title="Discord">
                     <Link
-                      href="#"
+                      href={PATHS.DISCORD}
                       target="_blank"
                       className="icon-button discord"
                       aria-label="Discord">
@@ -126,37 +128,33 @@ const Header = () => {
                 </Typography>
 
                 <Box className="mobile-modal-body">
-                  <MenuItem href={PATHS.HOME}>Genesis NFT</MenuItem>
+                  <MenuItem href={PATHS.GENESIS_NFT} target="_blank">
+                    Genesis NFT
+                  </MenuItem>
                   <Box className="socials">
-                    <TooltipStyle title="Twitter">
-                      <Link
-                        href="#"
-                        target="_blank"
-                        className="icon-button twitter"
-                        aria-label="Twitter">
-                        <Twitter height="0.875rem" />
-                      </Link>
-                    </TooltipStyle>
+                    <Link
+                      href={PATHS.TWITTER}
+                      target="_blank"
+                      className="icon-button twitter"
+                      aria-label="Twitter">
+                      <Twitter height="0.875rem" />
+                    </Link>
 
-                    <TooltipStyle title="Medium">
-                      <Link
-                        href="#"
-                        target="_blank"
-                        className="icon-button medium"
-                        aria-label="Medium">
-                        <Medium height="1.525rem" />
-                      </Link>
-                    </TooltipStyle>
+                    <Link
+                      href={PATHS.MEDIUM}
+                      target="_blank"
+                      className="icon-button medium"
+                      aria-label="Medium">
+                      <Medium height="1.525rem" />
+                    </Link>
 
-                    <TooltipStyle title="Discord">
-                      <Link
-                        href="#"
-                        target="_blank"
-                        className="icon-button discord"
-                        aria-label="Discord">
-                        <Discord height="1rem" />
-                      </Link>
-                    </TooltipStyle>
+                    <Link
+                      href={PATHS.DISCORD}
+                      target="_blank"
+                      className="icon-button discord"
+                      aria-label="Discord">
+                      <Discord height="1rem" />
+                    </Link>
                   </Box>
                 </Box>
               </Box>
