@@ -24,6 +24,7 @@ const SEOLayout = (props: ISEOLayoutProps & PropsWithChildren) => {
         <link rel="icon" sizes="48x48" href="/favicon.ico" />
 
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="site.webmanifest" />
 
         {/* HTML Meta Tags */}
         <title>{seo?.title || DEFAULT_TITLE}</title>
