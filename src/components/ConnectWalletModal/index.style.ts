@@ -82,6 +82,10 @@ export const ConnectWalletModalStyle = styled('div')(({ theme }: any) => {
           transformOrigin: 'center center',
           userSelect: 'none',
 
+          '&:not(:last-of-type)': {
+            marginBottom: '0.625rem'
+          },
+
           '&.center': {
             justifyContent: 'center'
           },

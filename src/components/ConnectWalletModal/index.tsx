@@ -1,11 +1,11 @@
 import { Box, Button, Typography } from '@mui/material'
-import { useWeb3React } from '@web3-react/core'
 import Image from 'next/image'
 import { parseCookies, setCookie } from 'nookies'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Web3 from 'web3'
 
+import { connectors } from '~/connectors'
 import { closeConnectWalletModal } from '~/store/slices/local.slice'
 import { COOKIES } from '~/utils/constants'
 import AppModal from '../AppModal'
@@ -20,14 +20,19 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
   const { open, onClose } = props
   const dispatch = useDispatch()
   const cookies = parseCookies()
-  const { connector, hooks } = useWeb3React()
-  const { useSelectedAccount } = hooks
-  const account = useSelectedAccount(connector)
 
-  const [loading, setLoading] = useState(false)
+  const [metaMask, useMetaMask] = connectors[0]
+  const [walletConnectV2, useWalletConnectV2] = connectors[1]
+
+  const { useAccount } = useMetaMask
+  const account = useAccount()
+
+  const [loadingMetaMask, setLoadingMetaMask] = useState(false)
+  const [loadingWalletConnectV2, setLoadingWalletConnectV2] = useState(false)
 
   const onConnectMetaMask = async () => {
     const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
+
     try {
       if (chainId && window.ethereum && window.ethereum.networkVersion !== chainId) {
         try {
@@ -39,12 +44,39 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
           console.log('Network changed rejected', err)
         }
       } else {
-        setLoading(true)
+        setLoadingMetaMask(true)
         try {
-          await connector.activate(chainId)
+          await metaMask.activate(parseInt(chainId))
         } catch (err) {
           console.log('User rejected the request', err)
-          setLoading(false)
+          setLoadingMetaMask(false)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const onConnectWalletConnect = async () => {
+    const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
+
+    try {
+      if (chainId && window.ethereum && window.ethereum.networkVersion !== chainId) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: Web3.utils.toHex(parseInt(chainId)) }]
+          })
+        } catch (err: any) {
+          console.log('Network changed rejected', err)
+        }
+      } else {
+        setLoadingWalletConnectV2(true)
+        try {
+          await walletConnectV2.activate(parseInt(chainId))
+        } catch (err) {
+          console.log('User rejected the request', err)
+          setLoadingWalletConnectV2(false)
         }
       }
     } catch (error) {
@@ -55,7 +87,7 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
   const sign = () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const provider = connector.provider
+        const provider = metaMask.provider
         const date = new Date()
         if (provider) {
           const signResponse = await provider.request({
@@ -84,10 +116,10 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
             dispatch(closeConnectWalletModal())
             setCookie(null, COOKIES.SIGNATURE, signature, { path: '/' })
           }
-          setLoading(false)
+          setLoadingMetaMask(false)
         })
         .catch(() => {
-          setLoading(false)
+          setLoadingMetaMask(false)
         })
     }
   }, [account])
@@ -109,8 +141,8 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
               <Typography className="heading">Popular</Typography>
 
               <Button
-                className={`wallet-btn metamask ${loading ? 'loading' : ''}`}
-                disabled={!!loading}
+                className={`wallet-btn metamask ${loadingMetaMask ? 'loading' : ''}`}
+                disabled={!!loadingMetaMask}
                 onClick={onConnectMetaMask}
                 disableRipple>
                 <Box className="btn-wrapper">
@@ -130,6 +162,32 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
                       priority
                     />
                     <Typography>MetaMask</Typography>
+                  </Box>
+                </Box>
+              </Button>
+
+              <Button
+                className={`wallet-btn walletconnect ${loadingWalletConnectV2 ? 'loading' : ''}`}
+                disabled={!!loadingWalletConnectV2}
+                onClick={onConnectWalletConnect}
+                disableRipple>
+                <Box className="btn-wrapper">
+                  <svg viewBox="0 0 25 24" fill="none" width="24" height="24">
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M11.5007 7C11.5007 6.44772 11.9484 6 12.5007 6C15.8144 6 18.5007 8.68629 18.5007 12C18.5007 15.3137 15.8144 18 12.5007 18C9.18702 18 6.50073 15.3137 6.50073 12C6.50073 11.4477 6.94845 11 7.50073 11C8.05302 11 8.50073 11.4477 8.50073 12C8.50073 14.2091 10.2916 16 12.5007 16C14.7099 16 16.5007 14.2091 16.5007 12C16.5007 9.79086 14.7099 8 12.5007 8C11.9484 8 11.5007 7.55228 11.5007 7Z"
+                      fill="currentColor"></path>
+                  </svg>
+                  <Box className="btn-content">
+                    <Image
+                      src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjMyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNS45NDY4NSA4LjQwMzE1YzMuMzQzMzItMy4yMDQyIDguNzYzOTUtMy4yMDQyIDEyLjEwNzI1IDBsLjU1MzIuNTMwMTdjLjA4MzcuMDgwMTguMDgzOS4yMTAzLjAwMDQuMjkwNjMtLjAwMDEuMDAwMTUtLjAwMDIuMDAwMy0uMDAwNC4wMDA0NWwtMS41Mjc2IDEuNDYzOWMtLjA4MzQuMDgtLjIxODYuMDgtLjMwMjEgMGwtLjU1MzktLjUzMDljLTIuMzMyNC0yLjIzNTMtNi4xMTQtMi4yMzUzLTguNDQ2MzUgMGwtLjU5MzMuNTY4NmMtLjA4MzQ5LjA4LS4yMTg2Mi4wOC0uMzAyMTEgMGwtMS41Mjc1Ni0xLjQ2NDAzYy0uMDgzNjUtLjA4MDE3LS4wODM4Mi0uMjEwMy0uMDAwNC0uMjkwNjIuMDAwMTMtLjAwMDE1LjAwMDI2LS4wMDAzLjAwMDQtLjAwMDM4em0xNC44MDIyNSAyLjU4Mjc1IDEuMzc1NyAxLjMxODRjLjE2NzMuMTYwNC4xNjc2LjQyMDYuMDAwOC41ODE0LS4wMDAzLjAwMDMtLjAwMDUuMDAwNS0uMDAwOC4wMDA4bC01LjUyMzMgNS4yOTM1Yy0uMTY3MS4xNi0uNDM3My4xNi0uNjA0MyAwbC0zLjkyMTItMy43NThjLS4wNDE3LS4wNC0uMTA5Mi0uMDQtLjE1MSAwbC0zLjkyMTA4IDMuNzU4Yy0uMTY3MDIuMTYtLjQzNzI1LjE2LS42MDQyNCAwbC01LjUyMzQ5LTUuMjkzNmMtLjE2NzI5LS4xNjAzLS4xNjc2NS0uNDIwNy0uMDAwNzktLjU4MTQuMDAwMjYtLjAwMDIuMDAwNTItLjAwMDUuMDAwNzktLjAwMDdsMS4zNzU2NC0xLjMxODRjLjA4MzQ5LS4wOC4yMTg2My0uMDguMzAyMTIgMGw0LjA3MjI3IDMuOTAyN2MuMDQxNzguMDQwMS4xMDkzNS4wNDAxLjE1MTA1IDBsMy45MjEwMy0zLjc1NzljLjE2Ny0uMTYwMS40MzcyLS4xNjAxLjYwNDIgMGwzLjkyMTMgMy43NTc5Yy4wNDE3LjA0MDEuMTA5Mi4wNDAxLjE1MSAwbDQuMDcyMi0zLjkwMjdjLjA4MzUtLjA3OTkuMjE4Ni0uMDc5OS4zMDIxIDB6IiBmaWxsPSIjM2I5OWZjIi8+PC9zdmc+"
+                      alt="MetaMask"
+                      width={32}
+                      height={32}
+                      priority
+                    />
+                    <Typography>WalletConnect</Typography>
                   </Box>
                 </Box>
               </Button>
