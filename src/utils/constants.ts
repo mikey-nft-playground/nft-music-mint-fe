@@ -24,7 +24,8 @@ export const PATHS = {
 }
 
 export const COOKIES = {
-  SIGNATURE: '_sig'
+  SIGNATURE: '_sig',
+  CONNECTOR: '_conn'
 }
 
 export const AccountType = [

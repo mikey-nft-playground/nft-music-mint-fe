@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from '@mui/material'
+import { utils } from 'ethers'
 import Image from 'next/image'
 import { parseCookies, setCookie } from 'nookies'
 import { useEffect, useState } from 'react'
@@ -24,8 +25,10 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
   const [metaMask, useMetaMask] = connectors[0]
   const [walletConnectV2, useWalletConnectV2] = connectors[1]
 
-  const { useAccount } = useMetaMask
-  const account = useAccount()
+  const { useAccount: useMetaMaskAccount } = useMetaMask
+  const { useAccount: useWalletConnectAccount } = useWalletConnectV2
+  const metaMaskAccount = useMetaMaskAccount()
+  const walletConnectAccount = useWalletConnectAccount()
 
   const [loadingMetaMask, setLoadingMetaMask] = useState(false)
   const [loadingWalletConnectV2, setLoadingWalletConnectV2] = useState(false)
@@ -73,7 +76,10 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
       } else {
         setLoadingWalletConnectV2(true)
         try {
-          await walletConnectV2.activate(parseInt(chainId))
+          await walletConnectV2.activate(parseInt(chainId)).catch((err) => {
+            console.log('User rejected the request', err)
+            setLoadingWalletConnectV2(false)
+          })
         } catch (err) {
           console.log('User rejected the request', err)
           setLoadingWalletConnectV2(false)
@@ -84,21 +90,19 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
     }
   }
 
-  const sign = () => {
+  const sign = (provider: any, account: string) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const provider = metaMask.provider
         const date = new Date()
-        if (provider) {
-          const signResponse = await provider.request({
+        if (!!provider) {
+          const message = `I want to login on GroundUp Genesis Pass at ${date}.
+              \nI accept the GroundUp Terms of Service and I am at least 13 years old.`
+          const hexMessage = utils.hexlify(utils.toUtf8Bytes(message))
+          const signature = await provider.request({
             method: 'personal_sign',
-            params: [
-              `I want to login on GroundUp Genesis Pass at ${date}.
-                \nI accept the GroundUp Terms of Service and I am at least 13 years old.`,
-              account
-            ]
+            params: [hexMessage, account]
           })
-          resolve(signResponse)
+          resolve(signature)
         } else {
           reject()
         }
@@ -109,12 +113,13 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
   }
 
   useEffect(() => {
-    if (account && !cookies[COOKIES.SIGNATURE]) {
-      sign()
+    if (metaMaskAccount && !cookies[COOKIES.SIGNATURE]) {
+      sign(metaMask.provider, metaMaskAccount)
         .then((signature: any) => {
           if (signature) {
             dispatch(closeConnectWalletModal())
             setCookie(null, COOKIES.SIGNATURE, signature, { path: '/' })
+            setCookie(null, COOKIES.CONNECTOR, 'metaMask', { path: '/' })
           }
           setLoadingMetaMask(false)
         })
@@ -122,7 +127,24 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
           setLoadingMetaMask(false)
         })
     }
-  }, [account])
+  }, [metaMaskAccount])
+
+  useEffect(() => {
+    if (walletConnectAccount && !cookies[COOKIES.SIGNATURE]) {
+      sign(walletConnectV2.provider, walletConnectAccount)
+        .then((signature: any) => {
+          if (signature) {
+            dispatch(closeConnectWalletModal())
+            setCookie(null, COOKIES.SIGNATURE, signature, { path: '/' })
+            setCookie(null, COOKIES.CONNECTOR, 'walletConnect', { path: '/' })
+          }
+          setLoadingWalletConnectV2(false)
+        })
+        .catch(() => {
+          setLoadingWalletConnectV2(false)
+        })
+    }
+  }, [walletConnectAccount])
 
   return (
     <AppModal open={open} onClose={onClose}>

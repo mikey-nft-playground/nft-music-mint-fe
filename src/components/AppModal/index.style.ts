@@ -4,13 +4,39 @@ import { rgba } from 'emotion-rgba'
 
 export const AppModalStyle = styled(Modal)(({ theme }: any) => {
   return {
+    zIndex: 40,
+
     '.MuiBackdrop-root': {
       backgroundColor: rgba(theme.primary, 0.9)
+    },
+
+    '.close-icon': {
+      position: 'fixed',
+      top: '24px',
+      right: '24px',
+      height: '40px',
+      width: '40px',
+      padding: 0,
+      borderRadius: '0.75rem',
+      border: `1px solid ${rgba(theme.contrast, 0.08)}`,
+      color: theme.contrast,
+      background: 'transparent',
+      zIndex: 20,
+
+      '&:hover': {
+        borderColor: rgba(theme.contrast, 0.18)
+      },
+
+      svg: {
+        fontSize: '0.875rem',
+        fontWeight: 700
+      }
     },
 
     '.app-modal': {
       position: 'absolute',
       inset: 0,
+
       paddingTop: '4.625rem',
       outline: 'none',
       animationTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -19,36 +45,10 @@ export const AppModalStyle = styled(Modal)(({ theme }: any) => {
       animationName: 'slideUp',
 
       [theme.breakpoints.up('sm')]: {
-        margin: '1.25rem 0',
+        width: '380px',
+        margin: '1.25rem auto',
         padding: 0,
         transformOrigin: 'center center'
-      },
-
-      '.close-icon': {
-        position: 'absolute',
-        top: '24px',
-        right: '24px',
-        height: '40px',
-        width: '40px',
-        padding: 0,
-        borderRadius: '0.75rem',
-        border: `1px solid ${rgba(theme.contrast, 0.08)}`,
-        color: theme.contrast,
-        background: 'transparent',
-        zIndex: 20,
-
-        [theme.breakpoints.up('sm')]: {
-          top: 0
-        },
-
-        '&:hover': {
-          borderColor: rgba(theme.contrast, 0.18)
-        },
-
-        svg: {
-          fontSize: '0.875rem',
-          fontWeight: 700
-        }
       },
 
       '.app-modal-container': {
