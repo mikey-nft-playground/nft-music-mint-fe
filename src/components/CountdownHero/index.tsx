@@ -13,6 +13,7 @@ import { checkWallet, resetCheckWalletResult } from '~/store/slices/wallet.slice
 import { RootState } from '~/store/store'
 import { CountdownHeroStyle } from './index.style'
 import ResultModal from './ResultModal'
+import Image from 'next/image'
 
 const statusSchema = yup.object().shape({
   address: yup
@@ -117,18 +118,18 @@ const CountdownHero = () => {
       <Box className="countdown-hero-header"></Box>
 
       <Box className="countdown-hero-contents-container">
-        <Box style={{ overflow: 'hidden' }}>
+        <Box style={{ paddingBottom: '3.5rem', overflow: 'hidden' }}>
           <Typography variant="h1" className="countdown-hero-title">
             GroundUp Genesis Pass
           </Typography>
-          <Typography variant="h1" className="countdown-hero-subtext">
+          <Typography variant="h3" className="countdown-hero-subtext">
             Countdown to Mint:
           </Typography>
 
           <Countdown remainingMs={remainingMs} />
 
           <Box className="check-status">
-            <Typography variant="h1" className="countdown-hero-subtext">
+            <Typography variant="h3" className="countdown-hero-subtext">
               Check Status:
             </Typography>
 
@@ -189,6 +190,18 @@ const CountdownHero = () => {
             </Typography>
             <Typography className="countdown-hero-intro-text">No ENS please.</Typography>
           </Box>
+        </Box>
+
+        <Box className="countdown-hero-gal">
+          <Image
+            src="/bg/guitar-gal.png"
+            alt="Guitar Gal"
+            width={0}
+            height={0}
+            sizes="100vw"
+            priority
+            style={{ width: '100%', height: 'auto' }}
+          />
         </Box>
       </Box>
     </CountdownHeroStyle>

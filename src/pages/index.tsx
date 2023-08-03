@@ -2,9 +2,11 @@ import { parseCookies } from 'nookies'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import AboutHero from '~/components/AboutHero'
 import ConnectWalletModal from '~/components/ConnectWalletModal'
 import CountdownHero from '~/components/CountdownHero'
 import DownloadMetaMaskModal from '~/components/DownloadMetaMaskModal'
+import Footer from '~/components/Footer'
 import Header from '~/components/Header'
 import MintHero from '~/components/MintHero'
 import { connectors } from '~/connectors'
@@ -60,6 +62,9 @@ const LandingPage = () => {
       <LandingPageStyle>
         <CountdownHero />
         <MintHero />
+        <AboutHero />
+        <Footer />
+
         <ConnectWalletModal open={isConnectWalletModalOpened} onClose={onCloseConnectWalletModal} />
         <DownloadMetaMaskModal
           open={isDownloadMetaMaskModalOpened}

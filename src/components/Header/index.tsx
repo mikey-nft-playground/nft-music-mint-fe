@@ -60,13 +60,13 @@ const Header = () => {
         <Box className="header-container">
           <Box className="header-upper">
             <Box className="header-brand-site">
-              <BrandSite width={150} />
+              <BrandSite width={sm ? 150 : 120} height={sm ? 50 : 40} />
             </Box>
 
             <Box className="header-main">
               <Box className="header-menu">
                 <MenuItem href={PATHS.GENESIS_NFT} target="_blank">
-                  Genesis NFT
+                  GroundUp Studios
                 </MenuItem>
               </Box>
 
@@ -162,7 +162,7 @@ const Header = () => {
           </AppModal>
         </Box>
       </Box>
-      <Box className="header-safe"></Box>
+      {/* <Box className="header-safe"></Box> */}
     </HeaderStyle>
   )
 }

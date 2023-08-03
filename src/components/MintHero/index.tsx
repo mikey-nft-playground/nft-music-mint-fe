@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useWeb3React } from '@web3-react/core'
+import Image from 'next/image'
 import { parseCookies } from 'nookies'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -163,26 +164,56 @@ const MintHero = () => {
       <Box className="mint-hero-header"></Box>
 
       <Box className="mint-hero-contents-container">
+        <Box className="mint-hero-lad">
+          <Image
+            src="/bg/guitar-lad.png"
+            alt="Guitar Lad"
+            width={0}
+            height={0}
+            sizes="100vw"
+            priority
+            style={{ width: '100%', height: 'auto' }}
+          />
+        </Box>
+
         <Box className="mint-hero-content">
           <Typography variant="h1" className="mint-hero-title">
-            GroundUp Genesis Pass
+            Mint GroundUp Genesis Pass
           </Typography>
           <Typography variant="h1" className="mint-hero-subtext">
-            INFO:
+            MINT INFO:
           </Typography>
 
           <Box className="mint-hero-account">
-            <Typography className="mint-hero-intro-text">NFT amount : 2,500</Typography>
-            <Typography className="mint-hero-intro-text">MINT Price : {NFT_PRICE}eth</Typography>
+            <Typography className="mint-hero-intro-text">1st Round: Team 400</Typography>
+            <Typography className="mint-hero-intro-text">2nd Round: Allowlist 1750</Typography>
+            <Typography className="mint-hero-text">
+              Date: August 10, 2023, from 12:00 to 14:00 UTC Allowlist is over allocated, and one
+              point allows mint 2 NFTs
+            </Typography>
+            <Typography className="mint-hero-intro-text">3rd Round: Whitelist 350</Typography>
+            <Typography className="mint-hero-text">
+              Date: August 10, 2023, 14:00 to August 11, 2023, 02:00 UTC One whitelist point allows
+              mint 1 NFT
+            </Typography>
+            <Typography className="mint-hero-intro-text note">
+              *The remaining NFTs from the three rounds will be allocated to the treasury for
+              community rewards.
+            </Typography>
           </Box>
 
           <Box className="mint-hero-info">
-            <Typography className="mint-hero-intro-text">About GroundUp Studios:</Typography>
-            <Typography className="mint-hero-text">
-              GroundUp Studios is a forward-thinking, web3-focused music organization that views
-              music and are in a brand new light. We aspire to create a borderless space for artists
-              to connect, create, collaborate and monetize by capitalizing on rapid evolving
-              technologies, economics and consumer/artist dynamics.
+            <Typography className="mint-hero-intro-text">
+              Current Round: <strong>Allowlist</strong>
+            </Typography>
+            <Typography className="mint-hero-intro-text">
+              Round ends in: <strong>1h 23m 56s</strong>
+            </Typography>
+            <Typography className="mint-hero-intro-text">
+              Current round minted: <strong>785/1700</strong>
+            </Typography>
+            <Typography className="mint-hero-intro-text">
+              Total minted: <strong>1085/2500</strong>
             </Typography>
           </Box>
 

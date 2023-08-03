@@ -22,7 +22,7 @@ export const MenuItemStyle = styled('div')(({ theme }: any) => {
         p: {
           color: rgba(theme.primary, 0.6),
           fontSize: '0.875rem',
-          fontWeight: 500,
+          fontWeight: 600,
           lineHeight: '1.5rem'
         },
 

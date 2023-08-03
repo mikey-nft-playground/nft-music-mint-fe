@@ -58,7 +58,8 @@ const UserIndicator = (props: IUserIndicatorProps) => {
   return (
     <UserIndicatorStyle>
       <Button className="user-indicator" onClick={onMenuOpen}>
-        <Jazzicon diameter={32} seed={seed} />
+        <Jazzicon diameter={26} seed={seed} />
+        <Typography>{formatAccountAddress(account)}</Typography>
       </Button>
 
       <UserIndicatorDropdownMenuStyle

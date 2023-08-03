@@ -9,16 +9,15 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
     color: theme.primary,
     backgroundColor: '#3c2edd',
     backgroundImage: 'linear-gradient(200deg, #f8b523 41%, #347fe3)',
-    paddingBottom: '3.5rem',
     position: 'relative',
     overflow: 'hidden',
-    minHeight: '1300px',
+    minHeight: '1500px',
     zIndex: 1,
 
     [theme.breakpoints.up('sm')]: {
       display: 'grid',
       placeItems: 'center',
-      minHeight: '80vh'
+      minHeight: 'unset'
     },
 
     '.mint-hero-bg': {
@@ -36,7 +35,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       zIndex: 0,
 
       [theme.breakpoints.up('sm')]: {
-        backgroundImage: 'url(/bg/mint-hero.png)',
+        backgroundImage: 'url(/bg/yellow-bg.jpg)',
         backgroundPosition: '0 0'
       }
     },
@@ -66,10 +65,25 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       opacity: 0.05,
       backgroundImage: `linear-gradient(${rgba('#e9b345', 0.8)}, ${rgba('#347fe3', 0)})`,
       paddingTop: '1.5rem',
-      zIndex: 1,
+      zIndex: 1
+    },
 
-      [theme.breakpoints.up('sm')]: {
-        height: '5.45rem'
+    '.mint-hero-lad': {
+      position: 'relative',
+      display: 'none',
+      flex: 1,
+      height: '100%',
+      zIndex: -1,
+
+      [theme.breakpoints.up('md')]: {
+        display: 'flex'
+      },
+
+      img: {
+        position: 'absolute',
+        left: 0,
+        bottom: 0,
+        right: 0
       }
     },
 
@@ -87,16 +101,21 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       gridRowGap: '1.5rem',
       zIndex: 1,
       padding: '0 1rem',
+      paddingBottom: 0,
 
       [theme.breakpoints.up('md')]: {
-        padding: '2rem 2.5rem'
+        padding: '2rem 2.5rem',
+        paddingBottom: 0,
+        gridTemplateColumns: 'auto 56%'
       },
 
       [theme.breakpoints.up('lg')]: {
-        gridTemplateColumns: 'auto 36%'
+        gridTemplateColumns: 'auto 40%'
       },
 
       '.mint-hero-content': {
+        paddingBottom: '3.5rem',
+
         [theme.breakpoints.up('lg')]: {
           gridColumn: 2
         }
@@ -133,13 +152,21 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       },
 
       '.mint-hero-intro-text': {
-        fontSize: '1.25rem',
+        fontSize: '1.125rem',
         fontWeight: 600,
         lineHeight: '1.75rem',
         marginBottom: '0.625rem',
 
         [theme.breakpoints.up('sm')]: {
-          fontSize: '1.5rem'
+          fontSize: '1.25rem',
+
+          'b, strong': {
+            fontSize: '1.5rem'
+          }
+        },
+
+        '&.note': {
+          fontSize: '1.125rem'
         }
       },
 
@@ -147,6 +174,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
         fontSize: '1rem',
         fontWeight: 500,
         lineHeight: '1.625rem',
+        marginBottom: '0.5rem',
 
         [theme.breakpoints.up('sm')]: {
           fontSize: '1.125rem'

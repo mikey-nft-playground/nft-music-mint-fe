@@ -1,25 +1,31 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import localFont from 'next/font/local'
-const poppins = localFont({
+
+const audiowide = localFont({
   src: [
     {
-      path: '../../../../public/fonts/Poppins/Poppins-Regular.woff2',
+      path: '../../../../public/fonts/Audiowide/Audiowide-Regular.woff2',
+      weight: '400',
+      style: 'normal'
+    }
+  ]
+})
+
+const exo = localFont({
+  src: [
+    {
+      path: '../../../../public/fonts/Exo/Exo-Thin.woff2',
+      weight: '300',
+      style: 'normal'
+    },
+    {
+      path: '../../../../public/fonts/Exo/Exo-Regular.woff2',
       weight: '400',
       style: 'normal'
     },
     {
-      path: '../../../../public/fonts/Poppins/Poppins-Medium.woff2',
-      weight: '500',
-      style: 'normal'
-    },
-    {
-      path: '../../../../public/fonts/Poppins/Poppins-SemiBold.woff2',
-      weight: '600',
-      style: 'normal'
-    },
-    {
-      path: '../../../../public/fonts/Poppins/Poppins-Bold.woff2',
+      path: '../../../../public/fonts/Exo/Exo-Bold.woff2',
       weight: '700',
       style: 'normal'
     }
@@ -42,10 +48,14 @@ export const ThemeStyle = css`
   input.MuiInputBase-input,
   button.MuiButton-root,
   p.MuiTypography-root,
-  h1.MuiTypography-root,
   h3.MuiTypography-root,
   h4.MuiTypography-root {
-    font-family: ${poppins.style.fontFamily};
+    font-family: ${exo.style.fontFamily};
+  }
+
+  h1.MuiTypography-root,
+  h2.MuiTypography-root {
+    font-family: ${audiowide.style.fontFamily};
   }
 
   button.MuiButton-root {

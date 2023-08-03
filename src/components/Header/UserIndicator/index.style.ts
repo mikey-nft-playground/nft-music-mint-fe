@@ -7,7 +7,36 @@ export const UserIndicatorStyle = styled('div')(({ theme }: any) => {
     '.user-indicator': {
       display: 'flex',
       alignItems: 'center',
-      marginLeft: '1rem'
+      marginLeft: '1rem',
+      borderRadius: '0.375rem',
+      overflow: 'hidden',
+      backgroundColor: 'transparent',
+      color: theme.primary,
+      border: `1px solid ${rgba(theme.primary, 0.18)}`,
+      transition: 'all 0.15s ease-in-out 0s',
+      transformOrigin: 'center center',
+      textTransform: 'unset',
+
+      [theme.breakpoints.up('md')]: {
+        padding: '0.25rem 0.875rem',
+        fontSize: '0.813rem'
+      },
+
+      '&:hover': {
+        borderColor: rgba(theme.primary, 0.2)
+      },
+
+      '&:active': {
+        transform: 'scale(0.95)'
+      },
+
+      p: {
+        fontFamily: '"Martian Mono", "Roboto Mono", monospace',
+        fontSize: '0.875rem',
+        fontWeight: 600,
+        color: theme.primary,
+        marginLeft: '0.375rem'
+      }
     }
   }
 })
