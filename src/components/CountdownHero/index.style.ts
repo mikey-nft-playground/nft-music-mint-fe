@@ -8,7 +8,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
     backgroundImage: 'linear-gradient(200deg, #2927bd 41%, #347fe3)',
     position: 'relative',
     overflow: 'hidden',
-    minHeight: '960px',
+    minHeight: '1100px',
     zIndex: 1,
 
     [theme.breakpoints.up('sm')]: {
@@ -128,7 +128,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
         },
 
         h1: {
-          fontSize: '2.25rem',
+          fontSize: '2rem',
           fontWeight: 600,
 
           [theme.breakpoints.up('sm')]: {

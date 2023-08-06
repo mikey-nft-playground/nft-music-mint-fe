@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import EastRoundedIcon from '@mui/icons-material/EastRounded'
 import { Box, FormControl, IconButton, InputAdornment, TextField, Typography } from '@mui/material'
-import { BigNumber } from 'ethers'
 import { DateTime, Duration, DurationObjectUnits } from 'luxon'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,9 +11,14 @@ import { isAddress } from 'web3-validator'
 
 import { checkWallet, resetCheckWalletResult } from '~/store/slices/wallet.slice'
 import { RootState } from '~/store/store'
-import { CountdownHeroStyle } from './index.style'
+import { PHASE } from '~/utils/constants'
 import ResultModal from './ResultModal'
-import Image from 'next/image'
+import { CountdownHeroStyle } from './index.style'
+
+type ICountdownHeroProps = {
+  phase: PHASE
+  waitingCountdown: number
+}
 
 const statusSchema = yup.object().shape({
   address: yup
@@ -22,30 +27,42 @@ const statusSchema = yup.object().shape({
     .test('valid', 'Invalid wallet address', (value) => isAddress(value + ''))
 })
 
-const Countdown = (props: { remainingMs: number }) => {
-  const { remainingMs = 0 } = props
+const Countdown = (props: ICountdownHeroProps) => {
+  const { phase, waitingCountdown } = props
   const [duration, setDuration] = useState<DurationObjectUnits>({ days: 0, hours: 0, minutes: 0 })
 
   useEffect(() => {
-    if (remainingMs)
-      setDuration(Duration.fromMillis(remainingMs).shiftTo('days', 'hours', 'minutes').toObject())
-  }, [remainingMs])
+    if (waitingCountdown)
+      setDuration(
+        Duration.fromMillis(waitingCountdown).shiftTo('days', 'hours', 'minutes').toObject()
+      )
+  }, [waitingCountdown])
 
   return (
     <Box className="countdown">
-      <Typography variant="h1">{duration.days}</Typography>
-      <Typography>days :</Typography>
-      <Typography variant="h1">{duration.hours}</Typography>
-      <Typography>h :</Typography>
-      <Typography variant="h1">{Math.trunc(duration.minutes || 0)}</Typography>
-      <Typography>mins</Typography>
+      {
+        {
+          [PHASE.WAITING]: (
+            <>
+              <Typography variant="h1">{duration.days}</Typography>
+              <Typography>days :</Typography>
+              <Typography variant="h1">{duration.hours}</Typography>
+              <Typography>h :</Typography>
+              <Typography variant="h1">{Math.trunc(duration.minutes || 0)}</Typography>
+              <Typography>mins</Typography>
+            </>
+          ),
+          [PHASE.ALLOWLIST]: <Typography variant="h1">Minting now!</Typography>,
+          [PHASE.WHITELIST]: <Typography variant="h1">Minting now!</Typography>,
+          [PHASE.OVER]: <Typography variant="h1">Mint ended!</Typography>
+        }[phase]
+      }
     </Box>
   )
 }
 
-const CountdownHero = () => {
-  const deployedTimestamp = process.env.NEXT_PUBLIC_CONTRACT_DEPLOYED_TIMESTAMP!
-  const eventDuration = process.env.NEXT_PUBLIC_EVENT_DURATION!
+const CountdownHero = (props: ICountdownHeroProps) => {
+  const { phase, waitingCountdown } = props
 
   const {
     control,
@@ -58,10 +75,6 @@ const CountdownHero = () => {
   const [isResultModalOpened, setResultModalOpened] = useState(false)
   const [address, setAddress] = useState('')
   const [result, setResult] = useState('')
-
-  const [remainingMs, setRemainingMs] = useState(0)
-  const intervalLength = 1000
-  let countdown: NodeJS.Timer | null = null
 
   const onOpenResultModal = () => {
     setResultModalOpened(true)
@@ -76,33 +89,6 @@ const CountdownHero = () => {
     setAddress(data.address)
     dispatch(checkWallet({ walletAddress: data.address }))
   }
-
-  const startTimer = () => {
-    if (deployedTimestamp && eventDuration) {
-      const start = BigNumber.from(deployedTimestamp).toNumber() * 1000
-      const eventDurationMs = DateTime.fromMillis(start)
-        .plus({ days: parseInt(eventDuration) })
-        .diffNow('millisecond')
-        .toMillis()
-
-      if (eventDurationMs > 0) {
-        setRemainingMs(eventDurationMs)
-        countdown = setInterval(() => {
-          setRemainingMs((duration) => duration - 1000)
-        }, intervalLength)
-      }
-    }
-  }
-
-  const cancelTimer = () => {
-    countdown && clearInterval(countdown)
-    setRemainingMs(0)
-  }
-
-  useEffect(() => {
-    startTimer()
-    return () => cancelTimer()
-  }, [])
 
   useEffect(() => {
     if (checkWalletResult) {
@@ -126,7 +112,7 @@ const CountdownHero = () => {
             Countdown to Mint:
           </Typography>
 
-          <Countdown remainingMs={remainingMs} />
+          <Countdown phase={phase} waitingCountdown={waitingCountdown} />
 
           <Box className="check-status">
             <Typography variant="h3" className="countdown-hero-subtext">

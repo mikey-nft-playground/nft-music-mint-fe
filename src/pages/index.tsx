@@ -1,5 +1,5 @@
 import { parseCookies } from 'nookies'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import AboutHero from '~/components/AboutHero'
@@ -12,9 +12,14 @@ import MintHero from '~/components/MintHero'
 import { connectors } from '~/connectors'
 import { closeConnectWalletModal, closeDownloadMetaMaskModal } from '~/store/slices/local.slice'
 import { RootState } from '~/store/store'
-import { COOKIES } from '~/utils/constants'
+import { COOKIES, PHASE } from '~/utils/constants'
 
 import { LandingPageStyle } from '~/styles/pages/index.style'
+import { useCountdown } from '~/hooks/useCountdown'
+
+const eventAllowlistTimestamp = process.env.NEXT_PUBLIC_ALLOWLIST_TIMESTAMP || '1691668800000' //1691114400000
+const eventWhitelistTimestamp = process.env.NEXT_PUBLIC_WHITELIST_TIMESTAMP || '1691676000000'
+const eventOverTimestamp = process.env.NEXT_PUBLIC_OVER_TIMESTAMP || '1691719200000'
 
 const LandingPage = () => {
   const dispatch = useDispatch()
@@ -27,6 +32,11 @@ const LandingPage = () => {
     (state: RootState) => state.local
   )
 
+  const [phase, setPhase] = useState<PHASE>(PHASE.WAITING)
+  const waitingCountdown = useCountdown(Number(eventAllowlistTimestamp))
+  const allowlistCountdown = useCountdown(Number(eventWhitelistTimestamp))
+  const whitelistCountdown = useCountdown(Number(eventOverTimestamp))
+
   const onCloseDownloadMetaMaskModal = () => {
     dispatch(closeDownloadMetaMaskModal())
   }
@@ -34,6 +44,34 @@ const LandingPage = () => {
   const onCloseConnectWalletModal = () => {
     dispatch(closeConnectWalletModal())
   }
+
+  const getPhase = () => {
+    if (waitingCountdown > 0) {
+      setPhase(PHASE.WAITING)
+    } else if (allowlistCountdown > 0) {
+      setPhase(PHASE.ALLOWLIST)
+    } else if (whitelistCountdown > 0) {
+      setPhase(PHASE.WHITELIST)
+    } else {
+      setPhase(PHASE.OVER)
+    }
+  }
+
+  useEffect(() => {
+    if (phase === PHASE.WAITING && waitingCountdown <= 0) getPhase()
+  }, [waitingCountdown])
+
+  useEffect(() => {
+    if (phase === PHASE.ALLOWLIST && allowlistCountdown <= 0) getPhase()
+  }, [allowlistCountdown])
+
+  useEffect(() => {
+    if (phase === PHASE.WHITELIST && whitelistCountdown <= 0) getPhase()
+  }, [whitelistCountdown])
+
+  useEffect(() => {
+    getPhase()
+  }, [])
 
   useEffect(() => {
     const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
@@ -60,8 +98,13 @@ const LandingPage = () => {
       <Header />
 
       <LandingPageStyle>
-        <CountdownHero />
-        <MintHero />
+        <CountdownHero phase={phase} waitingCountdown={waitingCountdown} />
+        <MintHero
+          phase={phase}
+          waitingCountdown={waitingCountdown}
+          allowlistCountdown={allowlistCountdown}
+          whitelistCountdown={whitelistCountdown}
+        />
         <AboutHero />
         <Footer />
 

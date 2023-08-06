@@ -3,9 +3,6 @@ import { rgba } from 'emotion-rgba'
 
 export const MintHeroStyle = styled('section')(({ theme }: any) => {
   return {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // alignItems: 'center',
     color: theme.primary,
     backgroundColor: '#3c2edd',
     backgroundImage: 'linear-gradient(200deg, #f8b523 41%, #347fe3)',
@@ -17,7 +14,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
     [theme.breakpoints.up('sm')]: {
       display: 'grid',
       placeItems: 'center',
-      minHeight: 'unset'
+      minHeight: '680px'
     },
 
     '.mint-hero-bg': {
@@ -110,7 +107,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       },
 
       [theme.breakpoints.up('lg')]: {
-        gridTemplateColumns: 'auto 40%'
+        gridTemplateColumns: 'auto 42%'
       },
 
       '.mint-hero-content': {
@@ -144,7 +141,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       },
 
       '.mint-hero-account': {
-        marginTop: '1.875rem'
+        marginTop: '1.5rem'
       },
 
       '.mint-hero-info': {

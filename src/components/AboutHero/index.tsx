@@ -3,6 +3,12 @@ import Image from 'next/image'
 
 import { AboutHeroStyle } from './index.style'
 
+const NFT_PRICE = process.env.NEXT_PUBLIC_NFT_PRICE || '0.02'
+const TEAM_AMOUNT = process.env.NEXT_PUBLIC_TEAM_AMOUNT || '400'
+const ALLOWLIST_AMOUNT = process.env.NEXT_PUBLIC_ALLOWLIST_AMOUNT || '1750'
+const WHITELIST_AMOUNT = process.env.NEXT_PUBLIC_WHITELIST_AMOUNT || '350'
+const TOTAL_AMOUNT = Number(TEAM_AMOUNT) + Number(ALLOWLIST_AMOUNT) + Number(WHITELIST_AMOUNT)
+
 const AboutHero = () => {
   return (
     <AboutHeroStyle>
@@ -32,10 +38,10 @@ const AboutHero = () => {
             </Typography>
 
             <Typography className="about-hero-intro-text">
-              Supply: <b>2500</b>
+              Supply: <b>{TOTAL_AMOUNT}</b>
             </Typography>
             <Typography className="about-hero-intro-text">
-              Mint Price: <b>0.02eth</b>
+              Mint Price: <b>{NFT_PRICE}eth</b>
             </Typography>
           </Box>
         </Box>

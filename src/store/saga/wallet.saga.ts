@@ -5,6 +5,8 @@ import { walletApi } from '~/api/wallet.api'
 import {
   checkWalletError,
   checkWalletSuccess,
+  getMintedStatsError,
+  getMintedStatsSuccess,
   getProofError,
   getProofSuccess
 } from '../slices/wallet.slice'
@@ -28,5 +30,16 @@ export function* getProofSaga(action: PayloadAction<{ walletAddress: string; typ
     }
   } catch (error) {
     yield put(getProofError(error))
+  }
+}
+
+export function* getMintedStatsSaga() {
+  try {
+    const { data } = yield call(walletApi.mintedStats)
+    if (data && data.mintedStats) {
+      yield put(getMintedStatsSuccess(data.mintedStats))
+    }
+  } catch (error) {
+    yield put(getMintedStatsError(error))
   }
 }

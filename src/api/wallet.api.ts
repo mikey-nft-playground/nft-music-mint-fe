@@ -21,5 +21,15 @@ export const walletApi = {
     } catch (err) {
       throw err
     }
+  },
+
+  async mintedStats() {
+    try {
+      const res = await mainClient.get('/wallets/minted-stats')
+      const resBody = res.data
+      return resBody
+    } catch (err) {
+      throw err
+    }
   }
 }

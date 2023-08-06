@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useWeb3React } from '@web3-react/core'
+import { Duration, DurationObjectUnits } from 'luxon'
 import Image from 'next/image'
 import { parseCookies } from 'nookies'
 import { useEffect, useState } from 'react'
@@ -7,23 +8,38 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { RevertedMessages } from '~/contracts'
 import { openConnectWalletModal, openDownloadMetaMaskModal } from '~/store/slices/local.slice'
-import { getProof, resetProof } from '~/store/slices/wallet.slice'
+import { getMintedStats, getProof, resetProof } from '~/store/slices/wallet.slice'
 import { RootState } from '~/store/store'
 import { getStatusBlockchain, mintBlockchain } from '~/utils/blockchain'
-import { COOKIES, EWalletListType } from '~/utils/constants'
+import { COOKIES, EWalletListType, PHASE } from '~/utils/constants'
 
 import QuantityPicker from '../QuantityPicker'
 import ConfirmationModal from './ConfirmationModal'
 import LoadingModal from './LoadingModal'
-import { MintHeroStyle } from './index.style'
 import MintResultModal, { EStatus } from './MintResultModal'
+import { MintHeroStyle } from './index.style'
+
+type IMintHeroProps = {
+  phase: PHASE
+  waitingCountdown: number
+  allowlistCountdown: number
+  whitelistCountdown: number
+}
 
 const NFT_PRICE = process.env.NEXT_PUBLIC_NFT_PRICE || '0.02'
+const TEAM_AMOUNT = process.env.NEXT_PUBLIC_TEAM_AMOUNT || '400'
+const ALLOWLIST_AMOUNT = process.env.NEXT_PUBLIC_ALLOWLIST_AMOUNT || '1750'
+const WHITELIST_AMOUNT = process.env.NEXT_PUBLIC_WHITELIST_AMOUNT || '350'
+const TOTAL_AMOUNT = Number(TEAM_AMOUNT) + Number(ALLOWLIST_AMOUNT) + Number(WHITELIST_AMOUNT)
 
-const MintHero = () => {
+const MintHero = (props: IMintHeroProps) => {
+  const { phase, waitingCountdown, allowlistCountdown, whitelistCountdown } = props
+
   const dispatch = useDispatch()
   const cookies = parseCookies()
-  const { gotProof, proof, getProofError } = useSelector((state: RootState) => state.wallet)
+  const { gotProof, proof, getProofError, mintedStats } = useSelector(
+    (state: RootState) => state.wallet
+  )
   const { connector, hooks } = useWeb3React()
   const { useSelectedAccount } = hooks
   const account = useSelectedAccount(connector)
@@ -35,6 +51,22 @@ const MintHero = () => {
   const [isMintResultModalOpened, setMintResultModalOpened] = useState(false)
   const [mintStatus, setMintStatus] = useState(EStatus.SUCCESS)
   const [mintError, setMintError] = useState('Something went wrong.')
+
+  const [waitingDuration, setWaitingDuration] = useState<DurationObjectUnits>({
+    days: 0,
+    hours: 0,
+    minutes: 0
+  })
+  const [allowlistDuration, setAllowlistDuration] = useState<DurationObjectUnits>({
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  })
+  const [whitelistDuration, setWhitelistDuration] = useState<DurationObjectUnits>({
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  })
 
   const onQuantityChange = (qty: number) => {
     setQuantity(qty)
@@ -104,6 +136,40 @@ const MintHero = () => {
         })
     }
   }
+
+  useEffect(() => {
+    dispatch(getMintedStats())
+  }, [])
+
+  useEffect(() => {
+    if (waitingCountdown) {
+      setWaitingDuration(
+        Duration.fromMillis(waitingCountdown)
+          .shiftTo('days', 'hours', 'minutes', 'seconds')
+          .toObject()
+      )
+    }
+  }, [waitingCountdown])
+
+  useEffect(() => {
+    if (allowlistCountdown) {
+      setAllowlistDuration(
+        Duration.fromMillis(allowlistCountdown)
+          .shiftTo('hours', 'minutes', 'seconds', 'milliseconds')
+          .toObject()
+      )
+    }
+  }, [allowlistCountdown])
+
+  useEffect(() => {
+    if (whitelistCountdown) {
+      setWhitelistDuration(
+        Duration.fromMillis(whitelistCountdown)
+          .shiftTo('hours', 'minutes', 'seconds', 'milliseconds')
+          .toObject()
+      )
+    }
+  }, [whitelistCountdown])
 
   useEffect(() => {
     if (account && cookies[COOKIES.SIGNATURE] && isMintBtnClicked && !isConfirmationModalOpened) {
@@ -180,57 +246,143 @@ const MintHero = () => {
           <Typography variant="h1" className="mint-hero-title">
             Mint GroundUp Genesis Pass
           </Typography>
-          <Typography variant="h1" className="mint-hero-subtext">
-            MINT INFO:
-          </Typography>
 
           <Box className="mint-hero-account">
-            <Typography className="mint-hero-intro-text">1st Round: Team 400</Typography>
-            <Typography className="mint-hero-intro-text">2nd Round: Allowlist 1750</Typography>
-            <Typography className="mint-hero-text">
-              Date: August 10, 2023, from 12:00 to 14:00 UTC Allowlist is over allocated, and one
-              point allows mint 2 NFTs
+            <Typography variant="h1" className="mint-hero-subtext">
+              MINT INFO:
             </Typography>
-            <Typography className="mint-hero-intro-text">3rd Round: Whitelist 350</Typography>
+            <Typography className="mint-hero-intro-text">Phase 1: Team {TEAM_AMOUNT}</Typography>
+            <Typography className="mint-hero-intro-text">
+              Phase 2: Allowlist {ALLOWLIST_AMOUNT}
+            </Typography>
             <Typography className="mint-hero-text">
-              Date: August 10, 2023, 14:00 to August 11, 2023, 02:00 UTC One whitelist point allows
-              mint 1 NFT
+              Date: August 10th, from 20:00 to 22:00 HKT
+              <br />
+              Eligible wallets may mint up to 2 during the phase. Minting is NOT guaranteed.
+            </Typography>
+            <Typography className="mint-hero-intro-text">
+              Phase 3: Whitelist {WHITELIST_AMOUNT}
+            </Typography>
+            <Typography className="mint-hero-text">
+              Date: August 10, 2023, 22:00 to August 11, 2023, 10:00 HKT
+              <br />
+              Eligible wallets may mint 1 during the phase. Minting is guaranteed.
             </Typography>
             <Typography className="mint-hero-intro-text note">
-              *The remaining NFTs from the three rounds will be allocated to the treasury for
-              community rewards.
+              *No public phase. The remaining NFTs will be allocated to the treasury for community
+              rewards.
             </Typography>
           </Box>
 
-          <Box className="mint-hero-info">
-            <Typography className="mint-hero-intro-text">
-              Current Round: <strong>Allowlist</strong>
-            </Typography>
-            <Typography className="mint-hero-intro-text">
-              Round ends in: <strong>1h 23m 56s</strong>
-            </Typography>
-            <Typography className="mint-hero-intro-text">
-              Current round minted: <strong>785/1700</strong>
-            </Typography>
-            <Typography className="mint-hero-intro-text">
-              Total minted: <strong>1085/2500</strong>
-            </Typography>
-          </Box>
+          {
+            {
+              [PHASE.WAITING]: (
+                <Box className="mint-hero-info">
+                  <Typography className="mint-hero-intro-text">
+                    Countdown to Mint:{' '}
+                    <strong>
+                      {waitingDuration.days} days : {waitingDuration.hours} h :{' '}
+                      {waitingDuration.minutes} mins
+                    </strong>
+                  </Typography>
+                </Box>
+              ),
+              [PHASE.ALLOWLIST]: (
+                <>
+                  <Box className="mint-hero-info">
+                    <Typography className="mint-hero-intro-text">
+                      Current phase: <strong>Allowlist Mint</strong>
+                    </Typography>
+                    <Typography className="mint-hero-intro-text">
+                      Current phase ends in:{' '}
+                      <strong>
+                        {allowlistDuration.hours}h : {allowlistDuration.minutes}m :{' '}
+                        {allowlistDuration.seconds}s
+                      </strong>
+                    </Typography>
+                    <Typography className="mint-hero-intro-text">
+                      Current phase minted:{' '}
+                      <strong>
+                        {mintedStats ? mintedStats.allowlistMinted : '??'}/{ALLOWLIST_AMOUNT}
+                      </strong>
+                    </Typography>
+                    <Typography className="mint-hero-intro-text">
+                      Total minted:{' '}
+                      <strong>
+                        {mintedStats ? mintedStats.totalMinted : '??'}/{TOTAL_AMOUNT}
+                      </strong>
+                    </Typography>
+                  </Box>
 
-          <Box className="mint-section">
-            <Box style={{ display: 'flex', flexDirection: 'column', margin: '0 auto' }}>
-              <Box className="mint-box">
-                <Typography className="mint-hero-intro-text">Mint</Typography>
-                <QuantityPicker onChange={onQuantityChange} />
-                <Typography className="mint-hero-intro-text">
-                  {Number(NFT_PRICE) * quantity}eth
-                </Typography>
-              </Box>
-              <Button className="mint-btn" onClick={onOpenConfirmationModal}>
-                Mint
-              </Button>
-            </Box>
-          </Box>
+                  <Box className="mint-section">
+                    <Box style={{ display: 'flex', flexDirection: 'column', margin: '0 auto' }}>
+                      <Box className="mint-box">
+                        <Typography className="mint-hero-intro-text">Mint</Typography>
+                        <QuantityPicker onChange={onQuantityChange} />
+                        <Typography className="mint-hero-intro-text">
+                          {Number(NFT_PRICE) * quantity}eth
+                        </Typography>
+                      </Box>
+                      <Button className="mint-btn" onClick={onOpenConfirmationModal}>
+                        Mint
+                      </Button>
+                    </Box>
+                  </Box>
+                </>
+              ),
+              [PHASE.WHITELIST]: (
+                <>
+                  <Box className="mint-hero-info">
+                    <Typography className="mint-hero-intro-text">
+                      Current phase: <strong>Whitelist Mint</strong>
+                    </Typography>
+                    <Typography className="mint-hero-intro-text">
+                      Current phase ends in:{' '}
+                      <strong>
+                        {whitelistDuration.hours}h : {whitelistDuration.minutes}m :{' '}
+                        {whitelistDuration.seconds
+                          ? parseInt(whitelistDuration.seconds.toString())
+                          : 0}
+                        s
+                      </strong>
+                    </Typography>
+                    <Typography className="mint-hero-intro-text">
+                      Current phase minted:{' '}
+                      <strong>
+                        {mintedStats ? mintedStats.whitelistMinted : '??'}/{WHITELIST_AMOUNT}
+                      </strong>
+                    </Typography>
+                    <Typography className="mint-hero-intro-text">
+                      Total minted:{' '}
+                      <strong>
+                        {mintedStats ? mintedStats.totalMinted : '??'}/{TOTAL_AMOUNT}
+                      </strong>
+                    </Typography>
+                  </Box>
+
+                  <Box className="mint-section">
+                    <Box style={{ display: 'flex', flexDirection: 'column', margin: '0 auto' }}>
+                      <Box className="mint-box">
+                        <Typography className="mint-hero-intro-text">Mint</Typography>
+                        <QuantityPicker onChange={onQuantityChange} />
+                        <Typography className="mint-hero-intro-text">
+                          {Number(NFT_PRICE) * quantity}eth
+                        </Typography>
+                      </Box>
+                      <Button className="mint-btn" onClick={onOpenConfirmationModal}>
+                        Mint
+                      </Button>
+                    </Box>
+                  </Box>
+                </>
+              ),
+              [PHASE.OVER]: (
+                <Box className="mint-hero-info">
+                  <Typography className="mint-hero-intro-text">Mint ended!</Typography>
+                </Box>
+              )
+            }[phase]
+          }
         </Box>
       </Box>
 

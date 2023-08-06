@@ -9,6 +9,14 @@ interface IWalletState {
   gotProof: boolean
   proof: string[]
   getProofError: any
+  gettingMintedStats: boolean
+  gotMintedStats: boolean
+  mintedStats: {
+    allowlistMinted: number
+    whitelistMinted: number
+    totalMinted: number
+  } | null
+  mintedStatsError: any
 }
 
 const walletState: IWalletState = {
@@ -19,7 +27,11 @@ const walletState: IWalletState = {
   gettingProof: false,
   gotProof: false,
   proof: [],
-  getProofError: null
+  getProofError: null,
+  gettingMintedStats: false,
+  gotMintedStats: false,
+  mintedStats: null,
+  mintedStatsError: null
 }
 
 const walletSlice = createSlice({
@@ -72,6 +84,24 @@ const walletSlice = createSlice({
       state.gotProof = false
       state.proof = []
       state.getProofError = null
+    },
+
+    /**
+     * getMintedStats
+     */
+    getMintedStats(state) {
+      state.gettingMintedStats = true
+      state.gotMintedStats = false
+    },
+    getMintedStatsSuccess(state, action) {
+      state.gettingMintedStats = false
+      state.gotMintedStats = true
+      state.mintedStats = action.payload
+    },
+    getMintedStatsError(state, action) {
+      state.gettingMintedStats = false
+      state.gotMintedStats = false
+      state.mintedStatsError = action.payload
     }
   }
 })
@@ -84,6 +114,9 @@ export const {
   getProof,
   getProofSuccess,
   getProofError,
-  resetProof
+  resetProof,
+  getMintedStats,
+  getMintedStatsSuccess,
+  getMintedStatsError
 } = walletSlice.actions
 export default walletSlice.reducer
