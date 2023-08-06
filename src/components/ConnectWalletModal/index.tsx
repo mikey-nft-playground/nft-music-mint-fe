@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import Web3 from 'web3'
 
 import { connectors } from '~/connectors'
-import { closeConnectWalletModal } from '~/store/slices/local.slice'
+import { closeConnectWalletModal, openDownloadMetaMaskModal } from '~/store/slices/local.slice'
 import { COOKIES } from '~/utils/constants'
 import AppModal from '../AppModal'
 import { ConnectWalletModalStyle } from './index.style'
@@ -37,6 +37,10 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
     const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
 
     try {
+      if (typeof window.ethereum === 'undefined') {
+        dispatch(openDownloadMetaMaskModal())
+      }
+
       if (chainId && window.ethereum && window.ethereum.networkVersion !== chainId) {
         try {
           await window.ethereum.request({
@@ -64,26 +68,15 @@ const ConnectWalletModal = (props: IConnectWalletModalProps) => {
     const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
 
     try {
-      if (chainId && window.ethereum && window.ethereum.networkVersion !== chainId) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: Web3.utils.toHex(parseInt(chainId)) }]
-          })
-        } catch (err: any) {
-          console.log('Network changed rejected', err)
-        }
-      } else {
-        setLoadingWalletConnectV2(true)
-        try {
-          await walletConnectV2.activate(parseInt(chainId)).catch((err) => {
-            console.log('User rejected the request', err)
-            setLoadingWalletConnectV2(false)
-          })
-        } catch (err) {
+      setLoadingWalletConnectV2(true)
+      try {
+        await walletConnectV2.activate(parseInt(chainId)).catch((err) => {
           console.log('User rejected the request', err)
           setLoadingWalletConnectV2(false)
-        }
+        })
+      } catch (err) {
+        console.log('User rejected the request', err)
+        setLoadingWalletConnectV2(false)
       }
     } catch (error) {
       console.log(error)

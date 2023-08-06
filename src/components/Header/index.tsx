@@ -39,11 +39,7 @@ const Header = () => {
   const [isMobileModalOpened, setMobileModalOpened] = useState(false)
 
   const onOpenConnectWalletModal = () => {
-    if (typeof window.ethereum !== 'undefined') {
-      dispatch(openConnectWalletModal())
-    } else {
-      dispatch(openDownloadMetaMaskModal())
-    }
+    dispatch(openConnectWalletModal())
   }
 
   const onOpenMobileModal = () => {

@@ -29,9 +29,9 @@ export const COOKIES = {
 }
 
 export const AccountType = [
-  { status: 'WALLET_IN_BOTH_LIST', msg: 'Your wallet address is in both Allowlist and Whitelist.' },
-  { status: 'WALLET_IN_ALLOW_LIST_ONLY', msg: 'Your wallet address is in Allowlist.' },
-  { status: 'WALLET_IN_WHITE_LIST_ONLY', msg: 'Your wallet address is in Whitelist.' },
+  { status: 'WALLET_IN_BOTH_LIST', msg: 'Your wallet address is on the Whitelist!' },
+  { status: 'WALLET_IN_ALLOW_LIST_ONLY', msg: 'Your wallet address is on the Waitlist!' },
+  { status: 'WALLET_IN_WHITE_LIST_ONLY', msg: 'Your wallet address is on the Whitelist!' },
   { status: 'WALLET_NOT_IN_BOTH_LIST', msg: 'Your wallet address is not eligible to mint.' }
 ]
 

@@ -76,15 +76,11 @@ const LandingPage = () => {
   useEffect(() => {
     const chainId = process.env.NEXT_PUBLIC_SUPPORT_CHAIN_ID || '1'
 
-    if (
-      chainId &&
-      window.ethereum &&
-      window.ethereum.networkVersion === chainId &&
-      cookies[COOKIES.SIGNATURE]
-    ) {
+    if (cookies[COOKIES.SIGNATURE]) {
       switch (cookies[COOKIES.CONNECTOR]) {
         case 'metaMask':
-          metaMask?.connectEagerly()
+          if (chainId && window.ethereum && window.ethereum.networkVersion === chainId)
+            metaMask?.connectEagerly()
           break
         case 'walletConnect':
           walletConnectV2?.connectEagerly()
