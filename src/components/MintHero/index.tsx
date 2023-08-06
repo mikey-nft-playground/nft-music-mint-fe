@@ -224,7 +224,7 @@ const MintHero = (props: IMintHeroProps) => {
   }, [gotProof, proof])
 
   return (
-    <MintHeroStyle>
+    <MintHeroStyle className={`phase-${phase}`}>
       <Box className="mint-hero-bg"></Box>
       <Box className="mint-hero-noise"></Box>
       <Box className="mint-hero-header"></Box>

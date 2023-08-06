@@ -1,15 +1,25 @@
 import styled from '@emotion/styled'
 import { rgba } from 'emotion-rgba'
 
-export const MintHeroStyle = styled('section')(({ theme }: any) => {
+export const MintHeroStyle = styled('section')(({ theme, phase }: any) => {
   return {
+    display: 'flex',
+    flexDirection: 'column',
     color: theme.primary,
     backgroundColor: '#3c2edd',
     backgroundImage: 'linear-gradient(200deg, #f8b523 41%, #347fe3)',
     position: 'relative',
     overflow: 'hidden',
-    minHeight: '1500px',
+    minHeight: '990px',
     zIndex: 1,
+
+    '&.phase-1, &.phase-2': {
+      minHeight: '1245px',
+
+      [theme.breakpoints.up('sm')]: {
+        minHeight: '680px'
+      }
+    },
 
     [theme.breakpoints.up('sm')]: {
       display: 'grid',
@@ -26,7 +36,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       width: '100vw',
       opacity: 1,
       backgroundColor: 'transparent',
-      backgroundImage: 'url(/bg/mint-hero-mobile.png)',
+      backgroundImage: 'url(/bg/yellow-bg-mobile.jpg)',
       backgroundPosition: 'center bottom',
       backgroundSize: 'cover',
       zIndex: 0,
@@ -67,13 +77,19 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
 
     '.mint-hero-lad': {
       position: 'relative',
-      display: 'none',
       flex: 1,
       height: '100%',
       zIndex: -1,
+      order: 1,
+
+      [theme.breakpoints.up('sm')]: {
+        opacity: 0.2
+      },
 
       [theme.breakpoints.up('md')]: {
-        display: 'flex'
+        display: 'flex',
+        opacity: 1,
+        order: 'unset'
       },
 
       img: {
@@ -88,6 +104,7 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
       display: 'grid',
       gridTemplateColumns: '1fr',
       position: 'relative',
+      flex: 1,
       flexDirection: 'column',
       alignSelf: 'flex-end',
       alignItems: 'flex-start',
@@ -124,7 +141,11 @@ export const MintHeroStyle = styled('section')(({ theme }: any) => {
         lineHeight: '1.375',
         color: theme.primary,
 
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('lg')]: {
+          fontSize: '1.875rem'
+        },
+
+        [theme.breakpoints.up('xl')]: {
           fontSize: '2.125rem'
         }
       },

@@ -31,8 +31,7 @@ export const UserIndicatorStyle = styled('div')(({ theme }: any) => {
       },
 
       p: {
-        fontFamily: '"Martian Mono", "Roboto Mono", monospace',
-        fontSize: '0.875rem',
+        fontSize: '0.75rem',
         fontWeight: 600,
         color: theme.primary,
         marginLeft: '0.375rem'
@@ -101,7 +100,7 @@ export const UserIndicatorDropdownMenuStyle = styled(Menu)(({ theme }: any) => {
 
           h1: {
             color: theme.primary,
-            fontSize: '1.125rem',
+            fontSize: '1rem',
             lineHeight: '1.625rem',
             letterSpacing: '-.15px',
             fontWeight: 600
@@ -155,8 +154,7 @@ export const UserIndicatorDropdownMenuStyle = styled(Menu)(({ theme }: any) => {
               },
 
               h6: {
-                fontFamily: '"Martian Mono", "Roboto Mono", monospace',
-                fontSize: '0.75rem',
+                fontSize: '0.625rem',
                 fontWeight: 600,
                 color: theme.primary
               }

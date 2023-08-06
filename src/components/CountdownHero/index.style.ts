@@ -3,12 +3,14 @@ import { rgba } from 'emotion-rgba'
 
 export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
   return {
+    display: 'flex',
+    flexDirection: 'column',
     color: theme.contrast,
     backgroundColor: '#3c2edd',
     backgroundImage: 'linear-gradient(200deg, #2927bd 41%, #347fe3)',
     position: 'relative',
     overflow: 'hidden',
-    minHeight: '1100px',
+    minHeight: '925px',
     zIndex: 1,
 
     [theme.breakpoints.up('sm')]: {
@@ -26,7 +28,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
       width: '100vw',
       opacity: 1,
       backgroundColor: 'transparent',
-      backgroundImage: 'url(/bg/countdown-hero-mobile.png)',
+      backgroundImage: 'url(/bg/blue-bg-mobile.jpg)',
       backgroundPosition: 'center bottom',
       backgroundSize: 'cover',
       zIndex: 0,
@@ -73,6 +75,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
       display: 'grid',
       gridTemplateColumns: '1fr',
       position: 'relative',
+      flex: 1,
       flexDirection: 'column',
       alignSelf: 'flex-start',
       alignItems: 'flex-start',
@@ -232,13 +235,17 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
 
     '.countdown-hero-gal': {
       position: 'relative',
-      display: 'none',
       flex: 1,
       height: '100%',
       zIndex: -1,
 
+      [theme.breakpoints.up('sm')]: {
+        opacity: 0.2
+      },
+
       [theme.breakpoints.up('md')]: {
-        display: 'flex'
+        display: 'flex',
+        opacity: 1
       },
 
       img: {

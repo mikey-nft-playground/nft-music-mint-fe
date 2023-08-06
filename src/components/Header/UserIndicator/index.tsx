@@ -59,7 +59,7 @@ const UserIndicator = (props: IUserIndicatorProps) => {
     <UserIndicatorStyle>
       <Button className="user-indicator" onClick={onMenuOpen}>
         <Jazzicon diameter={26} seed={seed} />
-        <Typography>{formatAccountAddress(account)}</Typography>
+        <Typography className="wallet-address">{formatAccountAddress(account)}</Typography>
       </Button>
 
       <UserIndicatorDropdownMenuStyle
@@ -78,7 +78,9 @@ const UserIndicator = (props: IUserIndicatorProps) => {
           <Link href={PATHS.HOME} className="profile-header" onClick={onMenuClose}>
             <Jazzicon diameter={40} seed={seed} />
             <Box className="labels">
-              <Typography variant="h1">{formatAccountAddress(account)}</Typography>
+              <Typography variant="h1" className="wallet-address">
+                {formatAccountAddress(account)}
+              </Typography>
               <Typography variant="h2">Profile</Typography>
             </Box>
           </Link>
@@ -98,7 +100,9 @@ const UserIndicator = (props: IUserIndicatorProps) => {
                   />
                   <Box className="wallet-info-address">
                     <Typography>Ethereum</Typography>
-                    <Typography variant="h6">{formatAccountAddress(account)}</Typography>
+                    <Typography variant="h6" className="wallet-address">
+                      {formatAccountAddress(account)}
+                    </Typography>
                   </Box>
                 </Box>
 

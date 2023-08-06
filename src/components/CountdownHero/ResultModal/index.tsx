@@ -26,7 +26,7 @@ const ResultModal = (props: IResultModalProps) => {
             {address && (
               <Typography className="content">
                 <span>Wallet address: </span>
-                <em>{formatAccountAddress(address)}</em>
+                <em className="wallet-address">{formatAccountAddress(address)}</em>
               </Typography>
             )}
             {result && (

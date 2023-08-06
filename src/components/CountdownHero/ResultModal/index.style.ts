@@ -54,7 +54,6 @@ export const ResultModalStyle = styled('div')(({ theme }: any) => {
 
           em: {
             color: theme.link,
-            fontFamily: '"Martian Mono", "Roboto Mono", monospace',
             fontStyle: 'normal'
           }
         },

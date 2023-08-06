@@ -32,6 +32,21 @@ const exo = localFont({
   ]
 })
 
+const martianMono = localFont({
+  src: [
+    {
+      path: '../../../../public/fonts/MartianMono/MartianMono-Regular.woff2',
+      weight: '400',
+      style: 'normal'
+    },
+    {
+      path: '../../../../public/fonts/MartianMono/MartianMono-SemiBold.woff2',
+      weight: '600',
+      style: 'normal'
+    }
+  ]
+})
+
 export const AppStyle = styled('main')(({ theme }: any) => {
   return {
     display: 'flex',
@@ -56,6 +71,10 @@ export const ThemeStyle = css`
   h1.MuiTypography-root,
   h2.MuiTypography-root {
     font-family: ${audiowide.style.fontFamily};
+  }
+
+  .wallet-address {
+    font-family: ${martianMono.style.fontFamily}!important;
   }
 
   button.MuiButton-root {
