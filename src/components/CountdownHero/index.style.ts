@@ -140,7 +140,7 @@ export const CountdownHeroStyle = styled('section')(({ theme }: any) => {
         },
 
         p: {
-          fontSize: '1.75rem',
+          fontSize: '1.5rem',
           fontWeight: 600,
 
           [theme.breakpoints.up('sm')]: {

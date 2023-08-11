@@ -130,6 +130,7 @@ export const HeaderStyle = styled('header')(({ theme }: any) => {
 
           '&.twitter svg': { fill: '#7CCCFF' },
           '&.medium svg': { fill: '#000000' },
+          '&.open-sea svg': { fill: '#2081E2' },          
           '&.discord svg': { fill: '#7288DA' }
         },
 

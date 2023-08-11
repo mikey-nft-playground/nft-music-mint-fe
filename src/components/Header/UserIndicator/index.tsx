@@ -49,6 +49,20 @@ const UserIndicator = (props: IUserIndicatorProps) => {
     } else {
       await connector.resetState()
     }
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem('wc@2:core:0.3//messages'))
+        localStorage.setItem('wc@2:core:0.3//messages', '{}')
+      if (localStorage.getItem('wc@2:core:0.3//subscription'))
+        localStorage.setItem('wc@2:core:0.3//subscription', '[]')
+      if (localStorage.getItem('wc@2:client:0.3//proposal'))
+        localStorage.setItem('wc@2:client:0.3//proposal', '[]')
+      if (localStorage.getItem('wc@2:core:0.3//session'))
+        localStorage.setItem('wc@2:client:0.3//session', '[]')
+      if (localStorage.getItem('wc@2:core:0.3//expirer'))
+        localStorage.setItem('wc@2:core:0.3//expirer', '[]')
+      if (localStorage.getItem('wc@2:core:0.3//pairing'))
+        localStorage.setItem('wc@2:core:0.3//pairing', '[]')
+    }
     destroyCookie(null, COOKIES.SIGNATURE, { path: '/' })
     destroyCookie(null, COOKIES.CONNECTOR, { path: '/' })
   }

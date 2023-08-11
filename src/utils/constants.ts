@@ -19,6 +19,7 @@ export const PATHS = {
   GENESIS_NFT: 'https://groundupstudios.io/',
   TWITTER: 'https://twitter.com/StudiosGroundup',
   MEDIUM: 'https://medium.com/@groundupstudios',
+  OPEN_SEA: 'https://opensea.io/collection/groundup-genesis-pass',
   DISCORD: 'https://discord.gg/groundup',
   METAMASK_DOWNLOAD: 'https://metamask.io/download/#listing'
 }

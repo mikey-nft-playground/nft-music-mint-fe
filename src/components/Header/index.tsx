@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 
 import Twitter from '~/assets/social-icons/twitter.svg'
 import Medium from '~/assets/social-icons/medium.svg'
+import OpenSea from '~/assets/social-icons/opensea.svg'
 import Discord from '~/assets/social-icons/discord.svg'
 import { openConnectWalletModal, openDownloadMetaMaskModal } from '~/store/slices/local.slice'
 import { PATHS } from '~/utils/constants'
@@ -68,6 +69,16 @@ const Header = () => {
 
               <Box>
                 <Box className="socials">
+                  <TooltipStyle title="OpenSea">
+                    <Link
+                      href={PATHS.OPEN_SEA}
+                      target="_blank"
+                      className="icon-button open-sea"
+                      aria-label="OpenSea">
+                      <OpenSea height="1.625rem" />
+                    </Link>
+                  </TooltipStyle>
+
                   <TooltipStyle title="Twitter">
                     <Link
                       href={PATHS.TWITTER}
@@ -128,6 +139,14 @@ const Header = () => {
                     Genesis NFT
                   </MenuItem>
                   <Box className="socials">
+                    <Link
+                      href={PATHS.OPEN_SEA}
+                      target="_blank"
+                      className="icon-button open-sea"
+                      aria-label="OpenSea">
+                      <OpenSea height="1.625rem" />
+                    </Link>
+
                     <Link
                       href={PATHS.TWITTER}
                       target="_blank"

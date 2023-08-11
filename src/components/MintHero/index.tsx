@@ -378,6 +378,7 @@ const MintHero = (props: IMintHeroProps) => {
               ),
               [PHASE.OVER]: (
                 <Box className="mint-hero-info">
+                  <Typography className="mint-hero-intro-text">Minted: {TOTAL_AMOUNT}/{TOTAL_AMOUNT}</Typography>
                   <Typography className="mint-hero-intro-text">Mint ended!</Typography>
                 </Box>
               )
